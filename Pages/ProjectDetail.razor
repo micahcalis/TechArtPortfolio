@@ -1,0 +1,74 @@
+﻿@page "/project/{ProjectId}"
+@using TechArtPortfolio.Layout.Models
+@using Markdig
+
+<MudContainer MaxWidth="MaxWidth.Large" Class="mt-6 mb-16">
+    
+    <MudButton Href="/" Variant="Variant.Text" StartIcon="@Icons.Material.Filled.ArrowBack" Class="mb-6">
+        Back to Gallery
+    </MudButton>
+
+    @if (CurrentProject == null)
+    {
+        <MudText Typo="Typo.h4" Color="Color.Error">Project not found.</MudText>
+    }
+    else
+    {
+        <MudText Typo="Typo.h2" Color="Color.Primary" GutterBottom="true" Style="font-weight: 700;">
+            @CurrentProject.Title
+        </MudText>
+        <MudText Typo="Typo.h5" Color="Color.Secondary" Class="mb-8">
+            @CurrentProject.Tagline
+        </MudText>
+
+        @foreach (var content in CurrentProject.Contents)
+        {
+            @if (content is TextContent textBlock)
+            {
+                <div class="my-6" style="color: #e0e0e0; font-size: 1.1rem; line-height: 1.6;">
+                    @((MarkupString)Markdown.ToHtml(textBlock.Text, Pipeline))
+                </div>
+            }
+            else if (content is ImageContent imgBlock)
+            {
+                <MudCard Elevation="4" Class="my-8 rounded-lg overflow-hidden">
+                    <MudCardMedia Image="@imgBlock.ImageUrl" Style="height: auto; width: 100%; aspect-ratio: 16/9; object-fit: cover;" />
+                    
+                    @if (!string.IsNullOrWhiteSpace(imgBlock.Caption))
+                    {
+                        <MudCardContent>
+                            <MudText Typo="Typo.caption" Style="opacity: 0.7;">@imgBlock.Caption</MudText>
+                        </MudCardContent>
+                    }
+                </MudCard>
+            }
+            else if (content is CodeSnippetContent codeBlock)
+            {
+                <MudPaper Elevation="2" Class="pa-4 my-8 rounded-lg" Style="background-color: #1e1e1e; border: 1px solid #333;">
+                    <MudText Typo="Typo.caption" Color="Color.Info" Class="mb-2 d-block">
+                        @codeBlock.Language.ToUpper()
+                    </MudText>
+                    <pre style="margin: 0; overflow-x: auto;">
+<code style="font-family: 'Consolas', 'Courier New', monospace; color: #d4d4d4;">@codeBlock.Code</code>
+                    </pre>
+                </MudPaper>
+            }
+        }
+    }
+</MudContainer>
+
+@code {
+    [Parameter]
+    public string ProjectId { get; set; }
+    
+    private Project? CurrentProject;
+    
+    private static readonly MarkdownPipeline Pipeline = new MarkdownPipelineBuilder()
+        .UseAdvancedExtensions()
+        .Build();
+
+    protected override void OnParametersSet()
+    {
+        CurrentProject = PortfolioData.GetProjectById(ProjectId);
+    }
+}

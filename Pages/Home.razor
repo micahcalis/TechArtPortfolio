@@ -1,7 +1,31 @@
 ﻿@page "/"
+@using TechArtPortfolio.Layout.Models
 
-<PageTitle>Home</PageTitle>
+<MudText Typo="Typo.h3" Class="mb-6">My Technical Art</MudText>
 
-<h1>Hello, world!</h1>
+<MudGrid>
+    @if (PortfolioData.Projects != null)
+    {
+        @foreach (var project in PortfolioData.Projects)
+        {
+            <MudItem xs="12" sm="6" md="4">
+                <MudCard Elevation="4" Style="cursor:pointer;" @onclick="() => GoToProject(project.Value.Id)">
+                    <MudCardMedia Image="@project.Value.CoverImageUrl" Height="250" />
+                    <MudCardContent>
+                        <MudText Typo="Typo.h6">@project.Value.Title</MudText>
+                        <MudText Typo="Typo.body2" Color="Color.Secondary">@project.Value.Tagline</MudText>
+                    </MudCardContent>
+                </MudCard>
+            </MudItem>
+        }
+    }
+</MudGrid>
 
-Welcome to your new app.
+@code {
+    [Inject] public NavigationManager Nav { get; set; }
+
+    private void GoToProject(string id)
+    {
+        Nav.NavigateTo($"/project/{id}");
+    }
+}
