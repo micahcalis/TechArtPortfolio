@@ -4,11 +4,116 @@ public static class PortfolioData
 {
     public static Dictionary<string, Project> Projects { get; } = new()
     {
+        ["vulkan-adventures"] = new Project(
+            "vulkan-adventures",
+            "Vulkan Adventures",
+            "WIP of a custom Vulkan Renderer",
+            "images/CatAnguish.png",
+            new List<Content>()
+            {
+                new TextContent(ParagraphData.VulkanP0),
+                new TextContent(ParagraphData.VulkanP1),
+                new VideoContent("videos/vulkan/Rendershowcase.mp4", "Quick look of the renderer"),
+                new TextContent(ParagraphData.VulkanP2),
+                new TextContent(ParagraphData.VulkanP3),
+                new ImageContent("images/vulkan/DeferredAlbedo.png", "Deferred Albedo"),
+                new ImageContent("images/vulkan/DeferredNormal.png", "Deferred Normal"),
+                new ImageContent("images/vulkan/DeferredMaterial.png", "Deferred Material Parameters"),
+                new TextContent(ParagraphData.VulkanP4),
+                new CodeSnippetContent(CodeData.VulkanRenderPass, "cpp"),
+                new TextContent(ParagraphData.VulkanP5),
+                new VideoContent("videos/vulkan/Tornadoshowcase.mp4", "Particle System with SSBO's"),
+                new TextContent(ParagraphData.VulkanP6),
+                new CodeSnippetContent(CodeData.VulkanShader, "slang")
+            }),
+        
         ["painterly-rendering"] = new Project(
             "painterly-rendering",
             "Painterly Rendering",
             "Using Surface-Stable Voronoi Flooding",
-            "TODO",
+            "images/CatAnguish.png",
+            new List<Content>()
+            {
+                new TextContent(ParagraphData.PainterlyIntro)
+            }),
+        
+        ["voxel-cone-tracing"] = new Project(
+            "voxel-cone-tracing",
+            "Voxel Cone Tracing GI",
+            "Global Illumination with Voxel Cone Tracing and Anisotropic Voxels",
+            "images/CatAnguish.png",
+            new List<Content>()
+            {
+                new TextContent(ParagraphData.PainterlyIntro)
+            }),
+        
+        ["ocean-shader"] = new Project(
+            "ocean-shader",
+            "Ocean Shader",
+            "With inverse Fast Fourier Transform",
+            "images/CatAnguish.png",
+            new List<Content>()
+            {
+                new CodeSnippetContent(CodeData.TestCode, "cpp"),
+                new TextContent(ParagraphData.PainterlyIntro)
+            }),
+        
+        ["volumetric-clouds"] = new Project(
+            "volumetric-clouds",
+            "Volumetric Clouds",
+            "Real-Time Clouds with Volumetric Raymarching",
+            "images/CatAnguish.png",
+            new List<Content>()
+            {
+                new TextContent(ParagraphData.PainterlyIntro)
+            }),
+        
+        ["infinite-grass"] = new Project(
+            "infinite-grass",
+            "Infinite Grass",
+            "Infinite Grass with GPU Instancing",
+            "images/CatAnguish.png",
+            new List<Content>()
+            {
+                new TextContent(ParagraphData.PainterlyIntro),
+                new CodeSnippetContent(CodeData.TestCode, "cpp"),
+            }),
+        
+        ["msaa-outlines"] = new Project(
+            "msaa-outlines",
+            "MSAA Outlines",
+            "Sub-Pixel Edge-Detection with unresolved MSAA Buffers",
+            "images/CatAnguish.png",
+            new List<Content>()
+            {
+                new TextContent(ParagraphData.PainterlyIntro)
+            }),
+        
+        ["karst-simulation"] = new Project(
+            "karst-simulation",
+            "Karst Simulation",
+            "Real-Time Karst Simulation with Voxel Particles",
+            "images/CatAnguish.png",
+            new List<Content>()
+            {
+                new TextContent(ParagraphData.PainterlyIntro)
+            }),
+        
+        ["tile-based-terrain"] = new Project(
+            "tile-based-terrain",
+            "Tile Based Terrain",
+            "Terrain Generator for a Tile-Based Sandbox Game",
+            "images/CatAnguish.png",
+            new List<Content>()
+            {
+                new TextContent(ParagraphData.PainterlyIntro)
+            }),
+        
+        ["extra-shaders"] = new Project(
+            "extra-shaders",
+            "Extra Shaders",
+            "Gallery of Shaders & VFX",
+            "images/CatAnguish.png",
             new List<Content>()
             {
                 new TextContent(ParagraphData.PainterlyIntro)

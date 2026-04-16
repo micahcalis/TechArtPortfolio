@@ -1,25 +1,76 @@
 ﻿@page "/"
 @using TechArtPortfolio.Layout.Models
 
-<MudText Typo="Typo.h3" Class="mb-6">My Technical Art</MudText>
+<MudContainer MaxWidth="MaxWidth.Large" Class="mt-16">
 
-<MudGrid>
-    @if (PortfolioData.Projects != null)
-    {
-        @foreach (var project in PortfolioData.Projects)
+    <MudText Typo="Typo.h2" Class="mb-10" Align="Align.Center" Style="font-weight: 700;" Color="Color.Primary">
+        Micah Calis
+    </MudText>
+
+    <MudCard Elevation="0" Class="border-solid border-b-4 mud-border-primary overflow-hidden my-8 rounded-lg">
+
+        <video autoplay loop muted playsinline style="width: 100%; display: block;">
+
+            <source src="videos/Portfoliocover.mp4" type="video/mp4">
+
+            Your browser does not support the video tag.
+        </video>
+
+    </MudCard>
+
+    <MudText Typo="Typo.caption" Color="Color.Primary" Class="d-block mt-2" Align="Align.Right" Style="opacity: 0.8; margin-right: 20px; margin-bottom: 40px">
+        * Environment models and textures: Quixel
+    </MudText>
+    
+    
+    <MudGrid Class="mb-16" Justify="Justify.Center" AlignItems="AlignItems.Center">
+
+        <MudItem xs="12" md="6" Class="d-flex flex-column justify-center">
+            <MudText Typo="Typo.h4" Color="Color.Primary" Class="mb-4" Style="font-weight: 700;">
+                About Me
+            </MudText>
+            <MudText Typo="Typo.body1" Color="Color.Primary" Style="line-height: 1.8; font-size: 1.1rem;">
+                About meema sdasdfjklasdfljksdajklsfadjklasdfjklasdfjlasdfjkl...
+            </MudText>
+        </MudItem>
+
+        <MudItem xs="12" md="4" Class="d-flex justify-center">
+            <MudImage Src="images/CatAnguish.png"
+                      Alt="Micah Calis"
+                      Elevation="0"
+                      Class="rounded-lg border-solid border-b-4 mud-border-primary"
+                      Style="width: 100%; max-width: 250px; height: 250px; object-fit: cover;"/>
+        </MudItem>
+
+    </MudGrid>
+
+    <MudText Typo="Typo.h3" Class="mb-10" Align="Align.Center" Style="font-weight: 700;" Color="Color.Primary">
+        Projects
+    </MudText>
+
+    <MudGrid Justify="Justify.Center" Spacing="4">
+        @if (PortfolioData.Projects != null)
         {
-            <MudItem xs="12" sm="6" md="4">
-                <MudCard Elevation="4" Style="cursor:pointer;" @onclick="() => GoToProject(project.Value.Id)">
-                    <MudCardMedia Image="@project.Value.CoverImageUrl" Height="250" />
-                    <MudCardContent>
-                        <MudText Typo="Typo.h6">@project.Value.Title</MudText>
-                        <MudText Typo="Typo.body2" Color="Color.Secondary">@project.Value.Tagline</MudText>
-                    </MudCardContent>
-                </MudCard>
-            </MudItem>
+            @foreach (var project in PortfolioData.Projects)
+            {
+                <MudItem xs="12" sm="6" md="4">
+                    <MudCard Elevation="0"
+                             Class="border-solid border-b-4 mud-border-primary hover-effect"
+                             Style="cursor:pointer; transition: transform 0.2s;"
+                             @onclick="() => GoToProject(project.Value.Id)">
+
+                        <MudCardMedia Image="@project.Value.CoverImageUrl" Height="250"/>
+                        <MudCardContent>
+                            <MudText Typo="Typo.h6">@project.Value.Title</MudText>
+                            <MudText Typo="Typo.body2" Color="Color.Secondary">@project.Value.Tagline</MudText>
+                        </MudCardContent>
+
+                    </MudCard>
+                </MudItem>
+            }
         }
-    }
-</MudGrid>
+    </MudGrid>
+</MudContainer>
 
 @code {
     [Inject] public NavigationManager Nav { get; set; }

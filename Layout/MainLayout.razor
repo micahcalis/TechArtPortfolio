@@ -1,16 +1,45 @@
 ﻿@inherits LayoutComponentBase
+@using MudBlazor;
 
-<MudThemeProvider DefaultScrollbar="true" IsDarkMode="true" />
+<MudThemeProvider DefaultScrollbar="true" IsDarkMode="false" Theme="@MyCustomTheme" />
 <MudDialogProvider />
 <MudSnackbarProvider />
 
 <MudLayout>
-    <MudAppBar Elevation="1">
-        <MudText Typo="Typo.h5" Class="ml-3">Micah Calis</MudText>
+    <MudAppBar Elevation="0" Color="Color.Secondary" Class="border-solid border-b-4 mud-border-primary">
+
+        <MudText Typo="Typo.h5" Class="ml-3" Color="Color.Primary" Style="font-weight: 700;">
+            Micah Calis
+        </MudText>
+
+        <MudSpacer />
     </MudAppBar>
     <MudMainContent>
-        <MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="my-4 pt-4">
-            @Body
-        </MudContainer>
+        @Body
     </MudMainContent>
 </MudLayout>
+
+@code {
+    private MudTheme MyCustomTheme = new MudTheme()
+    {
+        PaletteLight = new PaletteLight()
+        {
+            Primary = "#3E4018", 
+            Secondary = "#E8A374", 
+            Background = "#FAF7EB", 
+            Surface = "#FAF7EB",
+            TextPrimary = "#131412",
+            TextSecondary = "#131412",
+
+            AppbarBackground = "#FAF7EB" 
+        },
+        
+        Typography = new Typography()
+        {
+            Default = new DefaultTypography()
+            {
+                FontFamily = new[] { "Inter", "Helvetica", "Arial", "sans-serif" }
+            }
+        }
+    };
+}

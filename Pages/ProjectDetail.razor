@@ -25,13 +25,13 @@
         {
             @if (content is TextContent textBlock)
             {
-                <div class="my-6" style="color: #e0e0e0; font-size: 1.1rem; line-height: 1.6;">
+                <div class="my-6" style="font-size: 1.1rem; line-height: 1.6;">
                     @((MarkupString)Markdown.ToHtml(textBlock.Text, Pipeline))
                 </div>
             }
             else if (content is ImageContent imgBlock)
             {
-                <MudCard Elevation="4" Class="my-8 rounded-lg overflow-hidden">
+                <MudCard Elevation="0" Class="my-8 rounded-lg overflow-hidden">
                     <MudCardMedia Image="@imgBlock.ImageUrl" Style="height: auto; width: 100%; aspect-ratio: 16/9; object-fit: cover;" />
                     
                     @if (!string.IsNullOrWhiteSpace(imgBlock.Caption))
@@ -42,15 +42,36 @@
                     }
                 </MudCard>
             }
+            else if (content is VideoContent vidBlock)
+            {
+                <MudCard Elevation="0" Class="border-solid border-b-4 mud-border-primary overflow-hidden my-8 rounded-lg">
+
+                    <video autoplay loop muted playsinline style="width: 100%; display: block;">
+                        <source src="@vidBlock.VideoUrl" type="video/mp4">
+            
+                        Your browser does not support the video tag.
+                    </video>
+
+                    @if (!string.IsNullOrWhiteSpace(vidBlock.Caption))
+                    {
+                        <MudCardContent>
+                            <MudText Typo="Typo.caption" Style="opacity: 0.7;">@vidBlock.Caption</MudText>
+                        </MudCardContent>
+                    }
+
+                </MudCard>
+            }
             else if (content is CodeSnippetContent codeBlock)
             {
-                <MudPaper Elevation="2" Class="pa-4 my-8 rounded-lg" Style="background-color: #1e1e1e; border: 1px solid #333;">
-                    <MudText Typo="Typo.caption" Color="Color.Info" Class="mb-2 d-block">
+                <MudPaper Elevation="0" Class="pa-4 my-8 rounded-lg" Style="background-color: #121212; border: 1px solid #3E4018;">
+        
+                    <MudText Typo="Typo.caption" Color="Color.Secondary" Class="mb-2 d-block">
                         @codeBlock.Language.ToUpper()
-                    </MudText>
+                    </MudText>  
+        
                     <pre style="margin: 0; overflow-x: auto;">
-<code style="font-family: 'Consolas', 'Courier New', monospace; color: #d4d4d4;">@codeBlock.Code</code>
-                    </pre>
+            <code style="font-family: 'Consolas', 'Courier New', monospace; color: #FAF7EB;">@codeBlock.Code</code>
+        </pre>
                 </MudPaper>
             }
         }
