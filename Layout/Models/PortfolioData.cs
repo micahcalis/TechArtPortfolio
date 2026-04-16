@@ -184,7 +184,18 @@ public static class PortfolioData
             "images/CatAnguish.png",
             new List<Content>()
             {
-                new TextContent(ParagraphData.PainterlyIntro)
+                new TextContent(ParagraphData.TerrainP0),
+                new ImageContent("images/terrain/TerrainBare.png", "Generated Tile-Based Terrain"),
+                new TextContent(ParagraphData.TerrainP1),
+                new ImageContent("images/terrain/HeightWaterMap.png", "Red Channel: Height Map, Blue Channel: Water Mask"),
+                new TextContent(ParagraphData.TerrainP2),
+                new ImageContent("images/terrain/MapDerivatives.png", "Left: Raw Derivative Map, Right: Processed Slope Map"),
+                new TextContent(ParagraphData.TerrainP3),
+                new ImageContent("images/terrain/ResourceMap.png", "Resource Map. Red Channel: Crystal Mask, Green Channel: Crystal Type"),
+                new TextContent(ParagraphData.TerrainP4),
+                new ImageContent("images/terrain/VegetationMap.png", "Vegetation Map. Red Channel: Vegetation Mask, Green & Blue Channel: Vegetation Type"),
+                new TextContent(ParagraphData.TerrainP5),
+                new ImageContent("images/terrain/FlorumShot.png", "Florum Gameplay Shot. Environment Assets: Dominique van de Fliert, Plant Creature & Props: Christian Jähndel, Mouse Player & UI Assets: Elain Dittrich Veenker\n")
             }),
     };
 

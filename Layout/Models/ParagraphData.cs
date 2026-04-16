@@ -166,6 +166,19 @@ public static class ParagraphData
 
     public static readonly string TerrainP0 =
         "For a game called ‘Florum’, we designed a top-down and tile-based game, with a tile-based environment. We needed a tool to generate the terrain for said environment, for project scalability and flexibility. The terrain itself has a simple pattern, it uses a few layered Perlin noise textures to create a couple of distinct height differences.";
-    
-    public
+
+    public static readonly string TerrainP1 =
+        "The water has a base of Fractional Brownian Motion Perlin noise, which then gets its river shape from isolating a contour line. This creates an edge-like effect which serves our river purposes well enough.";
+
+    public static readonly string TerrainP2 =
+        "In our game the player could not jump, so the player would need to walk up slopes. To detect where slopes would need to be placed, we first compute the partial derivatives of both axes and store them in a texture. Then another pass goes over this texture to remove corners from the slopes (where slopes form an L shape). ";
+
+    public static readonly string TerrainP3 =
+        "There are a few additional maps which are responsible for placing the vegetation and resources. The main resource in the game are crystals, and we wanted to evenly distribute clusters. So, the resource map is a voronoi noise buffer that stores the type of crystal using the ID of the voronoi cell. For the crystal cluster, it just thresholds the center of that cell.";
+
+    public static readonly string TerrainP4 =
+        "The vegetation map uses a thresholded Voronoi noise buffer, using the interior distance so that the shape of the cell is preserved. The remaining channels are used for vegetation variation.";
+
+    public static readonly string TerrainP5 =
+        "Since the terrain didn’t have to be created on runtime, I was able to create a mesh using the CPU. The mesh itself uses predefined meshes for the cubes and slopes. The entire terrain is divided into chunks, the size is balanced for draw calls and frustum culling. For each chunk a separate collider mesh is created that is a simplified version of the mesh. Additionally, a collider for the river edge is created so the player can’t fall in the water. Vegetation gets baked as a data, which is instantiated on game initialization.";
 }
