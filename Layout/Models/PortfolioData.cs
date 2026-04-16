@@ -123,8 +123,16 @@ public static class PortfolioData
             "images/CatAnguish.png",
             new List<Content>()
             {
-                new TextContent(ParagraphData.PainterlyIntro),
-                new CodeSnippetContent(CodeData.TestCode, "cpp"),
+                new TextContent(ParagraphData.GrassP0),
+                new VideoContent("videos/grass/GrassShowcase.mp4", "Grass Render (with Painterly filter)"),
+                new TextContent(ParagraphData.GrassP1),
+                new ImageContent("images/grass/WindBuffer.png", "Wind Marble noise"),
+                new TextContent(ParagraphData.GrassP2),
+                new CodeSnippetContent(CodeData.GrassBurstJob, "cs"),
+                new TextContent(ParagraphData.GrassP3),
+                new ImageContent("images/grass/GrassBuffer.png", "Grass Normal Buffer"),
+                new TextContent(ParagraphData.GrassP4),
+                new VideoContent("videos/grass/GrassPaint.mp4", "Grass Painting with Unity Terrain Tool"),
             }),
         
         ["msaa-outlines"] = new Project(
