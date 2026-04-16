@@ -49,3 +49,25 @@ public class CodeSnippetContent : Content
         Language = language;
     }
 }
+
+public class LinkButtonContent : Content
+{
+    public string Url;
+    public string Caption;
+
+    public LinkButtonContent(string url, string caption)
+    {
+        Url = url;
+        Caption = caption;
+    }
+}
+
+public class EmbeddedVideoContent : Content
+{
+    public string VideoUrl;
+
+    public EmbeddedVideoContent(string videoUrl)
+    {
+        VideoUrl = videoUrl;
+    }
+}

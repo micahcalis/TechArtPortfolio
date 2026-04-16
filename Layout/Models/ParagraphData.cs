@@ -2,8 +2,6 @@
 
 public static class ParagraphData
 {
-    public static string PainterlyIntro = "This is an introduction to painterly rendering";
-    
     // vulkan
     public static readonly string VulkanP0 =
         "For my graduation, I want to make a stylized watercolor render pipeline. Working with Unity’s Scriptable Render-Pipeline has been great, but its high-level nature and invisible backend make it hard to optimize. For full control and to learn C++, I decided to try out Vulkan.";
@@ -143,6 +141,31 @@ public static class ParagraphData
         "Before the actual edge-detection algorithm, we execute a fullscreen pass that creates a mask for the outlines, minimizing the amount of pixels that actually perform the MSAA edge-detection. Sampling an unresolved texture is not fast, especially if we’re performing 32 sub-samples per pixel (4 sub-samples times 8 neighbouring pixels). So, this is an important optimization.";
 
     public static readonly string OutlinesP4 =
-        "The edge-detection pass accumulates all the calculations from the sub-samples and simply normalizes the result. ";
+        "The edge-detection pass accumulates all the calculations from the sub-samples and simply normalizes the result.";
 
+    public static readonly string KarstP0 =
+        "This was an interesting challenge where I had a short week to try my hand at simulating Karst, underground erosion. If you’re interested in more detail, I have a more thorough documentation:";
+
+    public static readonly string KarstP1 =
+        "The simulation is voxel-based, meaning that I have a 3D bounding box for the particles, stored in the form of a 3D texture. Every simulation cycle, the volume gets updated using compute passes. The result is rendered out with instanced cubes. There is a default view for all solid particles, then a ‘hologram’ view that renders the empty / liquid particles.";
+
+    public static readonly string KarstP2 =
+        "The process starts with filling the voxel volume with particles. I use Fractional Brownian Motion with Perlin noise to create some natural randomness in the layers. I have four types of materials: sand, clay, permeable limestone and non-permeable limestone. \n";
+
+    public static readonly string KarstP3 =
+        "Afterwards fractures are inserted in the permeable limestone. These fractures naturally occur in perpendicular directions. To create a natural looking solution, I decided to create two sets of lines in the horizontal and vertical direction, by thresholding one-dimensional Perlin noise. The result is then offset slightly once again with Fractional Brownian Motion Perlin noise, to create flowing distortions.";
+
+    public static readonly string KarstP4 =
+        "Next up, it is important that the sand particles respond to gravity. Since we are trying to recreate the dramatic effect of a sinkhole, we need a way of making particles fall on the GPU. I decided to implement a two pass system that uses the Margolus neighbourhood. The odd-even approach isolates voxel updates and prevents race-condition issues.";
+
+    public static readonly string KarstP5 =
+        "The other moving component is the water. It needs to flow through the fractures to chemically erode the limestone and dissolve the clay and sand. I based my approach largely on the paper: Real-Time Virtual Pipes Simulation and Modeling for Small-Scale Shallow Water (2018). It works by implementing a Flux buffer that calculates outflowing water by doing a simple pressure calculation. Afterwards, a compute pass resolves the Flux by summing all inflowing and outflowing liquid. ";
+
+    public static readonly string KarstP6 =
+        "With all the moving components ready, we are ready to erode the limestone. For my implementation and chemical erosion math, I looked at a paper by Kai Franke and Heinrich Müller: Procedural generation of 3D karst caves with speleothems (2021). ";
+
+    public static readonly string TerrainP0 =
+        "For a game called ‘Florum’, we designed a top-down and tile-based game, with a tile-based environment. We needed a tool to generate the terrain for said environment, for project scalability and flexibility. The terrain itself has a simple pattern, it uses a few layered Perlin noise textures to create a couple of distinct height differences.";
+    
+    public
 }

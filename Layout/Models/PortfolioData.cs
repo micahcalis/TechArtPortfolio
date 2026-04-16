@@ -160,23 +160,27 @@ public static class PortfolioData
             "images/CatAnguish.png",
             new List<Content>()
             {
-                new TextContent(ParagraphData.PainterlyIntro)
+                new TextContent(ParagraphData.KarstP0),
+                new LinkButtonContent("https://docs.google.com/document/d/1NGr5QUwLfd7V4fgpwyVmKGn9VzXa_Qp5GAmxDcIB1xE/edit?tab=t.0#heading=h.n4me9648w7i8",
+                        "Documentation"),
+                new EmbeddedVideoContent("https://www.youtube.com/embed/WCDGYfeXD60"),
+                new TextContent(ParagraphData.KarstP1),
+                new TextContent(ParagraphData.KarstP2),
+                new ImageContent("images/karst/KarstLayers.png", "Simulation Layers"),
+                new TextContent(ParagraphData.KarstP3),
+                new ImageContent("images/karst/FractureTexture.png", "Fracture Visualization"),
+                new TextContent(ParagraphData.KarstP4),
+                new VideoContent("videos/karst/SandFalling.mp4", "Sand Falling in Sinkhole"),
+                new TextContent(ParagraphData.KarstP5),
+                new CodeSnippetContent(CodeData.FluxPass, "hlsl"),
+                new TextContent(ParagraphData.KarstP6),
+                new VideoContent("videos/karst/ErosionHolo.mp4", "Eroding Sinkholes")
             }),
         
         ["tile-based-terrain"] = new Project(
             "tile-based-terrain",
             "Tile Based Terrain",
             "Terrain Generator for a Tile-Based Sandbox Game",
-            "images/CatAnguish.png",
-            new List<Content>()
-            {
-                new TextContent(ParagraphData.PainterlyIntro)
-            }),
-        
-        ["extra-shaders"] = new Project(
-            "extra-shaders",
-            "Extra Shaders",
-            "Gallery of Shaders & VFX",
             "images/CatAnguish.png",
             new List<Content>()
             {
