@@ -142,7 +142,15 @@ public static class PortfolioData
             "images/CatAnguish.png",
             new List<Content>()
             {
-                new TextContent(ParagraphData.PainterlyIntro)
+                new TextContent(ParagraphData.OutlinesP0),
+                new TextContent(ParagraphData.OutlinesP1),
+                new ImageContent("images/outlines/Outlineshowcase.png", "MSAA Outlines with Cel-Shader"),
+                new TextContent(ParagraphData.OutlinesP2),
+                new ImageContent("images/outlines/ColorBuffer.png", "Outline Color Buffer Pre-pass"),
+                new TextContent(ParagraphData.OutlinesP3),
+                new ImageContent("images/outlines/OutlineMask.png", "Outline Mask (Quarter-res)"),
+                new TextContent(ParagraphData.OutlinesP4),
+                new ImageContent("images/outlines/OutlineCloseup.png", "Anti-Aliasing Close-up")
             }),
         
         ["karst-simulation"] = new Project(

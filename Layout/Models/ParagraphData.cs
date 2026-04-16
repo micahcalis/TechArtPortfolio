@@ -129,6 +129,20 @@ public static class ParagraphData
 
     public static readonly string GrassP4 =
         "The missing piece with the grass system is how it knows where grass should be placed. We were working with Unity’s Terrain System, so we needed a tool that seamlessly blends with the terrain. Since we weren’t using the detail tool for anything else, I implemented a pipeline that converts Unity’s detail array to a texture, which is then sampled by instance generation pass. The heightmap of the terrain is used to determine the height of the grass blades. Using the detail layer came with the advantage of being able to use the painting tools already in Unity’s Terrain System to paint the grass. ";
-    
-    
+
+    public static readonly string OutlinesP0 =
+        "For a project called ‘Midas’, we separated the game into two styles. Inspired by 2D animation films, the background would be painterly and the foreground cel-shaded with outlines. Trying many techniques for outline rendering, they always presented their own issues. Using a hull-mesh is the easiest, but has extremely limited use cases due to its many clipping flaws and inconsistent line thickness. ";
+
+    public static readonly string OutlinesP1 =
+        "A screen-space solution is usually the next step. A Sobel operator creates easy outlines, but it creates badly aliased outlines. A Laplacian creates a better result, but is quite sensitive and often requires a large amount of samples for a nice result. The solution I’ve come to like the most was presented in a talk by Arthur Brussee: That's a wrap: a Manifold Garden Rendering Retrospective (2020). ";
+
+    public static readonly string OutlinesP2 =
+        "This technique doesn’t require a complex algorithm, rather it takes advantage of an already existing technique to solve anti-aliasing: Multisample Anti-Aliasing. It works by performing edge detection in sub-pixel space, therefore creating perfectly anti-aliased outlines at a pixel level. My implementation starts with a simple pre-pass writing to a custom buffer for the outline color. There are also pre-passes for the depth and normal buffers, which are importantly unresolved MSAA textures. 4 sub-samples is sufficient.";
+
+    public static readonly string OutlinesP3 =
+        "Before the actual edge-detection algorithm, we execute a fullscreen pass that creates a mask for the outlines, minimizing the amount of pixels that actually perform the MSAA edge-detection. Sampling an unresolved texture is not fast, especially if we’re performing 32 sub-samples per pixel (4 sub-samples times 8 neighbouring pixels). So, this is an important optimization.";
+
+    public static readonly string OutlinesP4 =
+        "The edge-detection pass accumulates all the calculations from the sub-samples and simply normalizes the result. ";
+
 }
