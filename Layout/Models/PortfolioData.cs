@@ -51,16 +51,6 @@ public static class PortfolioData
                 new TextContent(ParagraphData.PainterlyP7),
             }),
         
-        ["voxel-cone-tracing"] = new Project(
-            "voxel-cone-tracing",
-            "Voxel Cone Tracing GI",
-            "Global Illumination with Voxel Cone Tracing and Anisotropic Voxels",
-            "images/CatAnguish.png",
-            new List<Content>()
-            {
-                new TextContent(ParagraphData.PainterlyIntro)
-            }),
-        
         ["ocean-shader"] = new Project(
             "ocean-shader",
             "Ocean Shader",
@@ -68,8 +58,40 @@ public static class PortfolioData
             "images/CatAnguish.png",
             new List<Content>()
             {
-                new CodeSnippetContent(CodeData.TestCode, "cpp"),
-                new TextContent(ParagraphData.PainterlyIntro)
+                new TextContent(ParagraphData.OceanP0),
+                new VideoContent("videos/ocean/Oceanshowcase.mp4", "Ocean Render (with Painterly filter)"),
+                new TextContent(ParagraphData.OceanP1),
+                new ImageContent("images/ocean/SpectrumBase.png", "Initial Spectrum Buffer"),
+                new TextContent(ParagraphData.OceanP2),
+                new TextContent(ParagraphData.OceanP3),
+                new ImageContent("images/ocean/SpectrumContinuous.png", "Continuous Spectrum Buffer"),
+                new TextContent(ParagraphData.OceanP4),
+                new ImageContent("images/ocean/ShapeMap.png", "Wave Displacement Map"),
+                new ImageContent("images/ocean/SlopeMap.png", "Wave Normal Map"),
+                new TextContent(ParagraphData.OceanP5),
+                new VideoContent("videos/ocean/Clipmapshowcase.mp4", "Ocean Clipmap system"),
+                new TextContent(ParagraphData.OceanP6),
+            }),
+        
+        ["voxel-cone-tracing"] = new Project(
+            "voxel-cone-tracing",
+            "Voxel Cone Tracing GI",
+            "Global Illumination with Voxel Cone Tracing and Anisotropic Voxels",
+            "images/CatAnguish.png",
+            new List<Content>()
+            {
+                new TextContent(ParagraphData.VCTP0),
+                new VideoContent("videos/vct/VCTshowcase.mp4", "VCT Render (with Painterly filter)"),
+                new TextContent(ParagraphData.VCTP1),
+                new ImageContent("images/vct/VoxelsDebug.png", "Voxels debug view"),
+                new TextContent(ParagraphData.VCTP2),
+                new TextContent(ParagraphData.VCTP3),
+                new VideoContent("videos/vct/VoxelsDebug.mp4", "Voxels debug view in order: Albedo, First Bounce, Second Bounce, Normals"),
+                new TextContent(ParagraphData.VCTP4),
+                new ImageContent("images/vct/IndirectLighting.png", "Raw Screenspace Cone Tracing Buffer (Quarter-res)"),
+                new TextContent(ParagraphData.VCTP5),
+                new ImageContent("images/vct/BlurLighting.png", "Filtered Screenspace Cone Tracing Buffer"),
+                new TextContent(ParagraphData.VCTP6),
             }),
         
         ["volumetric-clouds"] = new Project(
