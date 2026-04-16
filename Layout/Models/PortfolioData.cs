@@ -101,7 +101,19 @@ public static class PortfolioData
             "images/CatAnguish.png",
             new List<Content>()
             {
-                new TextContent(ParagraphData.PainterlyIntro)
+                new TextContent(ParagraphData.CloudsP0),
+                new VideoContent("videos/clouds/Cloudsshowcase.mp4", "Clouds Render (with Painterly filter)"),
+                new TextContent(ParagraphData.CloudsP1),
+                new ImageContent("images/clouds/PerlinWorley.png", "Left: Shape Noise channels, Right: Detail Noise channels"),
+                new TextContent(ParagraphData.CloudsP2),
+                new TextContent(ParagraphData.CloudsP3),
+                new CodeSnippetContent(CodeData.CloudMarchLoop, "hlsl"),
+                new TextContent(ParagraphData.CloudsP4),
+                new TextContent(ParagraphData.CloudsP5),
+                new CodeSnippetContent(CodeData.LightMarchLoop, "hlsl"),
+                new TextContent(ParagraphData.CloudsP6),
+                new ImageContent("images/clouds/RawCloudRender.png", "Raw Cloud Render (Quarter Res)"),
+                new TextContent(ParagraphData.CloudsP7)
             }),
         
         ["infinite-grass"] = new Project(
