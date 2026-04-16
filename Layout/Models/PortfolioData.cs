@@ -34,7 +34,21 @@ public static class PortfolioData
             "images/CatAnguish.png",
             new List<Content>()
             {
-                new TextContent(ParagraphData.PainterlyIntro)
+                new TextContent(ParagraphData.PainterlyP0),
+                new VideoContent("videos/painterly/FirstPainterlyshowcase.mp4", "Painterly effect. Environment models and textures: Quixel"),
+                new TextContent(ParagraphData.PainterlyP1),
+                new VideoContent("videos/painterly/PainterlyNoise.mp4", "Surface-Stable Voronoi Noise"),
+                new TextContent(ParagraphData.PainterlyP2),
+                new ImageContent("images/painterly/BlendPainterlyNoise.png", "Blended Levels of Surface-Stable Noise"),
+                new TextContent(ParagraphData.PainterlyP3),
+                new ImageContent("images/painterly/FloodInitialization.png", "Initialization Buffer. RG: Screen UV, B: Cell Distance"),               
+                new TextContent(ParagraphData.PainterlyP4),
+                new CodeSnippetContent(CodeData.FloodAlgorithm, "hlsl"),
+                new TextContent(ParagraphData.PainterlyP5),
+                new ImageContent("images/painterly/FloodResolve.png", "Resolved Flood Buffer"),
+                new TextContent(ParagraphData.PainterlyP6),
+                new ImageContent("images/painterly/FloodResolveCombined.png", "Resolved Buffer with both levels combined"),
+                new TextContent(ParagraphData.PainterlyP7),
             }),
         
         ["voxel-cone-tracing"] = new Project(
