@@ -8,7 +8,7 @@ public static class PortfolioData
             "vulkan-adventures",
             "Vulkan Adventures",
             "WIP of a custom Vulkan Renderer",
-            "images/CatAnguish.png",
+            "images/vulkan/Thumbnail.png",
             new List<Content>()
             {
                 new TextContent(ParagraphData.VulkanP0),
@@ -31,7 +31,7 @@ public static class PortfolioData
             "painterly-rendering",
             "Painterly Rendering",
             "Using Surface-Stable Voronoi Flooding",
-            "images/CatAnguish.png",
+            "images/painterly/Thumbnail.png",
             new List<Content>()
             {
                 new TextContent(ParagraphData.PainterlyP0),
@@ -55,7 +55,7 @@ public static class PortfolioData
             "ocean-shader",
             "Ocean Shader",
             "With inverse Fast Fourier Transform",
-            "images/CatAnguish.png",
+            "images/ocean/Thumbnail.png",
             new List<Content>()
             {
                 new TextContent(ParagraphData.OceanP0),
@@ -77,7 +77,7 @@ public static class PortfolioData
             "voxel-cone-tracing",
             "Voxel Cone Tracing GI",
             "Global Illumination with Voxel Cone Tracing and Anisotropic Voxels",
-            "images/CatAnguish.png",
+            "images/vct/Thumbnail.png",
             new List<Content>()
             {
                 new TextContent(ParagraphData.VCTP0),
@@ -98,7 +98,7 @@ public static class PortfolioData
             "volumetric-clouds",
             "Volumetric Clouds",
             "Real-Time Clouds with Volumetric Raymarching",
-            "images/CatAnguish.png",
+            "images/clouds/Thumbnail.png",
             new List<Content>()
             {
                 new TextContent(ParagraphData.CloudsP0),
@@ -120,7 +120,7 @@ public static class PortfolioData
             "infinite-grass",
             "Infinite Grass",
             "Infinite Grass with GPU Instancing",
-            "images/CatAnguish.png",
+            "images/grass/Thumbnail.png",
             new List<Content>()
             {
                 new TextContent(ParagraphData.GrassP0),
@@ -139,7 +139,7 @@ public static class PortfolioData
             "msaa-outlines",
             "MSAA Outlines",
             "Sub-Pixel Edge-Detection with unresolved MSAA Buffers",
-            "images/CatAnguish.png",
+            "images/outlines/Thumbnail.png",
             new List<Content>()
             {
                 new TextContent(ParagraphData.OutlinesP0),
@@ -157,7 +157,7 @@ public static class PortfolioData
             "karst-simulation",
             "Karst Simulation",
             "Real-Time Karst Simulation with Voxel Particles",
-            "images/CatAnguish.png",
+            "images/karst/Thumbnail.png",
             new List<Content>()
             {
                 new TextContent(ParagraphData.KarstP0),
@@ -181,7 +181,7 @@ public static class PortfolioData
             "tile-based-terrain",
             "Tile Based Terrain",
             "Terrain Generator for a Tile-Based Sandbox Game",
-            "images/CatAnguish.png",
+            "images/terrain/Thumbnail.png",
             new List<Content>()
             {
                 new TextContent(ParagraphData.TerrainP0),
