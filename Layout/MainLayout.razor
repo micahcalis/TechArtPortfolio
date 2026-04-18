@@ -23,27 +23,38 @@
 </MudLayout>
 
 @code {
+
     private MudTheme MyCustomTheme = new MudTheme()
     {
         PaletteLight = new PaletteLight()
         {
-            Primary = "#AB7EAA", 
-            Secondary = "#E8BECD", 
+            Primary = "#AB7EAA",
+            Secondary = "#E8BECD",
             Tertiary = "#2C3011",
-            Background = "F8FBED", 
+            Background = "F8FBED",
             Surface = "#F8FBED",
             TextPrimary = "#2C3011",
             TextSecondary = "#AB7EAA",
 
-            AppbarBackground = "#AB7EAA" 
+            AppbarBackground = "#AB7EAA"
         },
-        
+
         Typography = new Typography()
         {
             Default = new DefaultTypography()
             {
                 FontFamily = new[] { "Poppins", "Nunito", "sans-serif" }
+            },
+
+            Body1 = new Body1Typography()
+            {
+                FontSize = "0.9rem", 
+            },
+            Body2 = new Body2Typography()
+            {
+                FontSize = "0.8rem",
             }
         }
     };
+
 }

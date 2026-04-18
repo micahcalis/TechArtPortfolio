@@ -25,9 +25,9 @@
         {
             @if (content is TextContent textBlock)
             {
-                <div class="my-6" style="font-size: 1.1rem; line-height: 1.6;">
+                <MudText Typo="Typo.body1" Class="my-6" Style="line-height: 1.6;">
                     @((MarkupString)Markdown.ToHtml(textBlock.Text, Pipeline))
-                </div>
+                </MudText>
             }
             
             else if (content is ImageContent imgBlock)
@@ -35,10 +35,9 @@
                 <MudCard Elevation="0" 
                          Class="border-solid border-b-4 mud-border-secondary my-8 rounded-lg overflow-hidden"
                          Style="@(imgBlock.EnableOverflow ? "width: 100%;" : "width: 56.25%;")">
-
-                    @* THE FIX: A real HTML img tag. It natively understands its own aspect ratio! *@
+                    
                     <img src="@imgBlock.ImageUrl" 
-                         style="@(imgBlock.EnableOverflow 
+                         style="pointer-events: none; @(imgBlock.EnableOverflow 
                                     ? "width: 100%; height: auto; aspect-ratio: 16/9; object-fit: cover; display: block;" 
                                     : "width: 100%; height: auto; display: block;")" />
 
@@ -55,7 +54,7 @@
             {
                 <MudCard Elevation="0" Class="border-solid border-b-4 mud-border-secondary overflow-hidden my-8 rounded-lg">
 
-                    <video autoplay loop muted playsinline style="width: 100%; display: block;">
+                    <video autoplay loop muted playsinline style="pointer-events: none; width: 100%; display: block;">
                         <source src="@vidBlock.VideoUrl" type="video/mp4">
             
                         Your browser does not support the video tag.
