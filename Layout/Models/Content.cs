@@ -18,11 +18,13 @@ public class ImageContent : Content
 {
     public string ImageUrl;
     public string Caption;
+    public bool EnableOverflow;
 
-    public ImageContent(string imageUrl, string caption)
+    public ImageContent(string imageUrl, string caption, bool enableOverflow = true)
     {
         ImageUrl = imageUrl;
         Caption = caption;
+        EnableOverflow = enableOverflow;
     }
 }
 

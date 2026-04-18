@@ -1,13 +1,13 @@
 ﻿@page "/"
 @using TechArtPortfolio.Layout.Models
 
-<MudContainer MaxWidth="MaxWidth.Large" Class="mt-16">
+<MudContainer MaxWidth="MaxWidth.Large" Class="mt-16" Style="margin-bottom: 120px;">
 
     <MudText Typo="Typo.h2" Class="mb-10" Align="Align.Center" Style="font-weight: 700;" Color="Color.Primary">
         Micah Calis
     </MudText>
 
-    <MudCard Elevation="0" Class="border-solid border-b-4 mud-border-primary overflow-hidden my-8 rounded-lg">
+    <MudCard Elevation="0" Class="border-solid border-b-4 mud-border-secondary overflow-hidden my-8 rounded-lg">
 
         <video autoplay loop muted playsinline style="width: 100%; display: block;">
 
@@ -18,7 +18,7 @@
 
     </MudCard>
 
-    <MudText Typo="Typo.caption" Color="Color.Primary" Class="d-block mt-2" Align="Align.Right" Style="opacity: 0.8; margin-right: 20px; margin-bottom: 40px">
+    <MudText Typo="Typo.body2" Color="Color.Primary" Class="d-block mt-2" Align="Align.Right" Style="opacity: 0.8; margin-right: 20px; margin-bottom: 40px">
         * Environment models and textures: Quixel
     </MudText>
     
@@ -32,14 +32,27 @@
             <MudText Typo="Typo.body1" Color="Color.Tertiary" Style="line-height: 1.8; font-size: 1.1rem;">
                 Hi, I’m a shader-obsessed Technical Artist that loves developing unique real-time visuals. I am experienced with shading languages (HLSL, GLSL, Slang), Unity and C#. More recently, I have been working on a rendering engine with Vulkan and C++ for a stylized Watercolor Galaxy game.
             </MudText>
+            <MudText Typo="Typo.body1" Color="Color.Tertiary" Style="line-height: 1.8; font-size: 1.1rem;">
+                Contact: calismicah@gmail.com
+            </MudText>
+            <div class="my-6">
+                <MudButton Href="https://www.linkedin.com/in/micah-calis-994839229/"
+                           Target="_blank"
+                           Variant="Variant.Filled"
+                           Color="Color.Primary"
+                           EndIcon="@Icons.Material.Filled.OpenInNew">
+                    LinkedIn
+                </MudButton>
+            </div>
         </MudItem>
 
         <MudItem xs="12" md="4" Class="d-flex justify-center">
-            <MudImage Src="images/CatAnguish.png"
+            <MudImage Src="images/ProfilePicture.jpg"
                       Alt="Micah Calis"
                       Elevation="0"
-                      Class="rounded-lg border-solid border-b-4 mud-border-primary"
-                      Style="width: 100%; max-width: 250px; height: 250px; object-fit: cover;"/>
+                      ObjectFit="ObjectFit.Cover"
+                      Class="rounded-lg border-solid border-b-4 mud-border-secondary"
+                      Style="width: 100%; max-width: 250px; height: 250px;"/>
         </MudItem>
 
     </MudGrid>
@@ -55,14 +68,14 @@
             {
                 <MudItem xs="12" sm="6" md="4">
                     <MudCard Elevation="0"
-                             Class="border-solid border-b-4 mud-border-primary hover-effect"
+                             Class="border-solid border-b-4 mud-border-secondary hover-effect"
                              Style="cursor:pointer; transition: transform 0.2s;"
                              @onclick="() => GoToProject(project.Value.Id)">
 
                         <MudCardMedia Image="@project.Value.CoverImageUrl" Height="250"/>
                         <MudCardContent>
                             <MudText Typo="Typo.h6">@project.Value.Title</MudText>
-                            <MudText Typo="Typo.body2" Color="Color.Secondary">@project.Value.Tagline</MudText>
+                            <MudText Typo="Typo.body2" Color="Color.Primary">@project.Value.Tagline</MudText>
                         </MudCardContent>
 
                     </MudCard>

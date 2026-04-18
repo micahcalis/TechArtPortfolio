@@ -6,11 +6,14 @@
 <MudSnackbarProvider />
 
 <MudLayout>
-    <MudAppBar Elevation="0" Color="Color.Primary" Class="border-solid border-b-4 mud-border-primary">
+    <MudAppBar Elevation="0" Color="Color.Secondary" Class="border-solid border-b-4 mud-border-primary">
 
-        <MudText Typo="Typo.h5" Class="ml-3" Color="Color.Tertiary" Style="font-weight: 700;">
-            Micah Calis
-        </MudText>
+        @* Wrapped the MudText in a MudLink pointing to the homepage *@
+        <MudLink Href="/" Underline="Underline.None">
+            <MudText Typo="Typo.h5" Class="ml-3" Color="Color.Primary" Style="font-weight: 700;">
+                Micah Calis
+            </MudText>
+        </MudLink>
 
         <MudSpacer />
     </MudAppBar>
@@ -26,10 +29,10 @@
         {
             Primary = "#AB7EAA", 
             Secondary = "#E8BECD", 
-            Tertiary = "5D6722",
+            Tertiary = "#2C3011",
             Background = "F8FBED", 
             Surface = "#F8FBED",
-            TextPrimary = "#5D6722",
+            TextPrimary = "#2C3011",
             TextSecondary = "#AB7EAA",
 
             AppbarBackground = "#AB7EAA" 
@@ -39,7 +42,7 @@
         {
             Default = new DefaultTypography()
             {
-                FontFamily = new[] { "Inter", "Helvetica", "Arial", "sans-serif" }
+                FontFamily = new[] { "Poppins", "Nunito", "sans-serif" }
             }
         }
     };

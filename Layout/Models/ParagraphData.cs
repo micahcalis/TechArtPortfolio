@@ -4,7 +4,7 @@ public static class ParagraphData
 {
     // vulkan
     public static readonly string VulkanP0 =
-        "For my graduation, I want to make a stylized watercolor render pipeline. Working with Unity’s Scriptable Render-Pipeline has been great, but its high-level nature and invisible backend make it hard to optimize. For full control and to learn C++, I decided to try out Vulkan.";
+        "For my graduation, I am making a stylized watercolor render pipeline. Working with Unity’s Scriptable Render-Pipeline has been great, but its high-level nature and invisible backend make it hard to optimize. For full control and to learn C++, I decided to try out Vulkan.";
 
     public static readonly string VulkanP1 =
         "After more than 10,000 lines of code and half as many headaches, I have a fully functioning render-pipeline (stylization excluded). Here is a showcase of 1000 unique entities with unique materials, rendered comfortably at ~1.0 ms (1000 fps) on an RTX 3080.";
@@ -16,9 +16,10 @@ public static class ParagraphData
         "Because sphere-tracing is expensive, it is important to minimize the amount of fragments that use this algorithm. This can be difficult when pipelines get complicated, as prepasses are required for many effects. Instead of rendering my proxy meshes multiple times, I have decided to use multiple render targets, as you would in a deferred shading pipeline. This way I can add targets for new effects, while having to sphere trace in only one pass. ";
 
     public static readonly string VulkanP4 =
-        "Crucial for any render-pipeline is a decent Frame Graph. My approach is pretty standard, Topologically sorting a Directed Acyclic Graph that I build every frame. It automatically inserts barriers based on listed dependencies in the render passes, and has support for compute passes.";
+        "Crucial for any render-pipeline is a decent Frame Graph. My approach is pretty standard, Topologically sorting a Directed Acyclic Graph that I build every frame. It automatically inserts barriers based on listed dependencies in the render passes, and has support for compute passes. Below is an example of a render pass in my pipeline.";
 
-    public static readonly string VulkanP5 = "Particle Tornado with Compute Shaders:";
+    public static readonly string VulkanP5 = 
+        "Compute shaders and SSBO's are quite important for modern render-pipelines. My setup allows me to easily create effects like this:";
 
     public static readonly string VulkanP6 =
         "Equally as important is Shader development tools. Things I’ve taken for granted, like Properties in ShaderLab and Shader Globals, I’ve had to develop systems for. Luckily, SPIR-V Reflect makes reflection pretty doable. ";
@@ -42,7 +43,7 @@ public static class ParagraphData
         "After a few passes, most of the pixels will have found a better UV candidate, and the cells naturally converge towards the center of the SDF. This UV is then used to sample the opaque buffer, creating the following effect.";
 
     public static readonly string PainterlyP6 =
-        "Finally, the two buffers are blended using the fractal method, to get rid of the seams. ";
+        "Finally, the two buffers are blended using the fractal method, to get rid of the seams.";
 
     public static readonly string PainterlyP7 =
         "While this technique works especially well on a static camera, it does have flickering issues, noticeably around the edges of objects. One hypothesis I haven’t tested is using edge detection in the flooding algorithm, this could help prevent cell overflow.";
@@ -81,7 +82,7 @@ public static class ParagraphData
         "The next step is bouncing the light inside the voxel volumes. This is done by cone tracing in compute passes.";
 
     public static readonly string VCTP4 =
-        "Afterwards, then we cone trace once more, this time in screen space. This is one of the heaviest steps of the lighting pipeline, therefore it is important to render this at half, or quarter resolution. For ambient occlusion and global illumination, we sample broad cones around the surface normal. For specular reflections, sampling a few narrow cones in the reflected direction of the view vector against the surface normal gave me the best results";
+        "Afterwards, then we cone trace once more, this time in screen space. This is one of the heaviest steps of the lighting pipeline, therefore it is important to render this at half or quarter resolution. For ambient occlusion and global illumination, we sample broad cones around the surface normal. For specular reflections, sampling a few narrow cones in the reflected direction of the view vector against the surface normal gave me the best results.";
 
     public static readonly string VCTP5 =
         "The raw output of the cone tracing commonly suffers from artifacts, caused by the cube shape of a voxel. Because we rendered our buffer to a lower resolution, we can upscale it for a blurred result. On top of that, we apply depth-aware and temporal blur filters.";
@@ -114,13 +115,13 @@ public static class ParagraphData
         "Additionally it is important to note that volumetric raymarching is expensive, it should not be done at full resolution and should have occlusion culling. My clouds are rendered at a quarter resolution, and are rendered by drawing a proxy mesh in the sky.";
 
     public static readonly string GrassP0 =
-        "Moving grass is crucial for green environments to feel alive. Yet, grass is a common enemy of real-time rendering due to its varying levels of detail and complexity. Up close, grass needs to be highly detailed, yet far away it should be a coherent gradient. For my grass instancing implementation, I based it loosely on the techniques described by Eric Wohllaib: Procedural Grass in ‘Ghost of Tsushima’ (2021) . ";
+        "Moving grass is crucial for green environments to feel alive. Yet, grass is a common enemy of real-time rendering due to its varying levels of detail and complexity. Up close, grass needs to be highly detailed, yet far away it should be a coherent gradient. For my grass instancing implementation, I based it loosely on the techniques described by Eric Wohllaib: Procedural Grass in ‘Ghost of Tsushima’ (2021).";
 
     public static readonly string GrassP1 =
         "The first step is actually not specific to the grass, but quite important to making grass feel alive. I generate a wind texture that offsets the grass blades. The noise technique I am using is marble noise, where the marble shape creates natural ripples through the grass. The noise is inspired by Lode Vandevenne’s article: Texture Generation using Random Noise (2004). ";
 
     public static readonly string GrassP2 =
-        "Before we can render the instanced grass, we need to create an instancing clipmap. I use a combination of multithreading and compute shaders to achieve this effect. To cull the grass planes in the clipmap, I’m Unity’s Burst Job system to multithread an AABB Frustum culling algorithm. Because I have the data of the planes on the CPU, I can calculate the exact amount of compute threads required to dispatch the grass instance generation pass.";
+        "Before we can render the instanced grass, we need to create an instancing clipmap. I use a combination of multithreading and compute shaders to achieve this effect. To cull the grass planes in the clipmap, I’m using Unity’s Burst Job system to multithread an AABB Frustum culling algorithm. Because I have the data of the planes on the CPU, I can calculate the exact amount of compute threads required to dispatch the grass instance generation pass.";
 
     public static readonly string GrassP3 =
         "For each LOD of my grass, I have a separate Append SSBO. I can use the count buffer to indirectly instance the grass blades, keeping draw calls at a minimum.";
@@ -129,13 +130,13 @@ public static class ParagraphData
         "The missing piece with the grass system is how it knows where grass should be placed. We were working with Unity’s Terrain System, so we needed a tool that seamlessly blends with the terrain. Since we weren’t using the detail tool for anything else, I implemented a pipeline that converts Unity’s detail array to a texture, which is then sampled by instance generation pass. The heightmap of the terrain is used to determine the height of the grass blades. Using the detail layer came with the advantage of being able to use the painting tools already in Unity’s Terrain System to paint the grass. ";
 
     public static readonly string OutlinesP0 =
-        "For a project called ‘Midas’, we separated the game into two styles. Inspired by 2D animation films, the background would be painterly and the foreground cel-shaded with outlines. Trying many techniques for outline rendering, they always presented their own issues. Using a hull-mesh is the easiest, but has extremely limited use cases due to its many clipping flaws and inconsistent line thickness. ";
+        "For a project called ‘Midas’, we separated the game into two styles. Inspired by 2D animation films, the background is painterly and the foreground cel-shaded with outlines. Having tried many techniques for outline rendering, they always presented their own issues. Using a hull-mesh is the easiest, but has extremely limited use cases due to its many clipping flaws and inconsistent line thickness. ";
 
     public static readonly string OutlinesP1 =
         "A screen-space solution is usually the next step. A Sobel operator creates easy outlines, but it creates badly aliased outlines. A Laplacian creates a better result, but is quite sensitive and often requires a large amount of samples for a nice result. The solution I’ve come to like the most was presented in a talk by Arthur Brussee: That's a wrap: a Manifold Garden Rendering Retrospective (2020). ";
 
     public static readonly string OutlinesP2 =
-        "This technique doesn’t require a complex algorithm, rather it takes advantage of an already existing technique to solve anti-aliasing: Multisample Anti-Aliasing. It works by performing edge detection in sub-pixel space, therefore creating perfectly anti-aliased outlines at a pixel level. My implementation starts with a simple pre-pass writing to a custom buffer for the outline color. There are also pre-passes for the depth and normal buffers, which are importantly unresolved MSAA textures. 4 sub-samples is sufficient.";
+        "This technique doesn’t require a complex algorithm, rather it takes advantage of an already existing technique to solve anti-aliasing: Multisample Anti-Aliasing. It works by performing edge detection in sub-pixel space, therefore creating perfectly anti-aliased outlines at a pixel level. My implementation starts with a simple pre-pass writing to a custom buffer for the outline color. There are also pre-passes for the depth and normal buffers, which importantly are unresolved MSAA textures. 4 sub-samples is sufficient.";
 
     public static readonly string OutlinesP3 =
         "Before the actual edge-detection algorithm, we execute a fullscreen pass that creates a mask for the outlines, minimizing the amount of pixels that actually perform the MSAA edge-detection. Sampling an unresolved texture is not fast, especially if we’re performing 32 sub-samples per pixel (4 sub-samples times 8 neighbouring pixels). So, this is an important optimization.";
@@ -144,7 +145,7 @@ public static class ParagraphData
         "The edge-detection pass accumulates all the calculations from the sub-samples and simply normalizes the result.";
 
     public static readonly string KarstP0 =
-        "This was an interesting challenge where I had a short week to try my hand at simulating Karst, underground erosion. If you’re interested in more detail, I have a more thorough documentation:";
+        "This was an interesting challenge where I had a short week to try my hand at simulating Karst, underground erosion. If you’re interested in a more detailed explanation, I have a more thorough documentation:";
 
     public static readonly string KarstP1 =
         "The simulation is voxel-based, meaning that I have a 3D bounding box for the particles, stored in the form of a 3D texture. Every simulation cycle, the volume gets updated using compute passes. The result is rendered out with instanced cubes. There is a default view for all solid particles, then a ‘hologram’ view that renders the empty / liquid particles.";
@@ -153,7 +154,7 @@ public static class ParagraphData
         "The process starts with filling the voxel volume with particles. I use Fractional Brownian Motion with Perlin noise to create some natural randomness in the layers. I have four types of materials: sand, clay, permeable limestone and non-permeable limestone. \n";
 
     public static readonly string KarstP3 =
-        "Afterwards fractures are inserted in the permeable limestone. These fractures naturally occur in perpendicular directions. To create a natural looking solution, I decided to create two sets of lines in the horizontal and vertical direction, by thresholding one-dimensional Perlin noise. The result is then offset slightly once again with Fractional Brownian Motion Perlin noise, to create flowing distortions.";
+        "Afterwards fractures are inserted in the permeable limestone. These fractures naturally occur in perpendicular directions. To create a natural looking solution, I decided to create two sets of lines in the horizontal and vertical direction by thresholding one-dimensional Perlin noise. The result is then offset slightly once again with Fractional Brownian Motion Perlin noise, to create flowing distortions.";
 
     public static readonly string KarstP4 =
         "Next up, it is important that the sand particles respond to gravity. Since we are trying to recreate the dramatic effect of a sinkhole, we need a way of making particles fall on the GPU. I decided to implement a two pass system that uses the Margolus neighbourhood. The odd-even approach isolates voxel updates and prevents race-condition issues.";
@@ -165,7 +166,7 @@ public static class ParagraphData
         "With all the moving components ready, we are ready to erode the limestone. For my implementation and chemical erosion math, I looked at a paper by Kai Franke and Heinrich Müller: Procedural generation of 3D karst caves with speleothems (2021). ";
 
     public static readonly string TerrainP0 =
-        "For a game called ‘Florum’, we designed a top-down and tile-based game, with a tile-based environment. We needed a tool to generate the terrain for said environment, for project scalability and flexibility. The terrain itself has a simple pattern, it uses a few layered Perlin noise textures to create a couple of distinct height differences.";
+        "For a game called ‘Florum’, we designed a top-down and tile-based game with a tile-based environment. We needed a tool to generate the terrain for said environment, for project scalability and flexibility. The terrain itself has a simple pattern: it uses a few layered Perlin noise textures to create a couple of distinct height differences.";
 
     public static readonly string TerrainP1 =
         "The water has a base of Fractional Brownian Motion Perlin noise, which then gets its river shape from isolating a contour line. This creates an edge-like effect which serves our river purposes well enough.";

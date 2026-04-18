@@ -5,7 +5,7 @@
 <MudContainer MaxWidth="MaxWidth.Large" Class="mt-6 mb-16">
     
     <MudButton Href="/" Variant="Variant.Text" StartIcon="@Icons.Material.Filled.ArrowBack" Class="mb-6">
-        Back to Gallery
+        Back To Home
     </MudButton>
 
     @if (CurrentProject == null)
@@ -32,13 +32,20 @@
             
             else if (content is ImageContent imgBlock)
             {
-                <MudCard Elevation="0" Class="my-8 rounded-lg overflow-hidden">
-                    <MudCardMedia Image="@imgBlock.ImageUrl" Style="height: auto; width: 100%; aspect-ratio: 16/9; object-fit: cover;" />
-                    
+                <MudCard Elevation="0" 
+                         Class="border-solid border-b-4 mud-border-secondary my-8 rounded-lg overflow-hidden"
+                         Style="@(imgBlock.EnableOverflow ? "width: 100%;" : "width: 56.25%;")">
+
+                    @* THE FIX: A real HTML img tag. It natively understands its own aspect ratio! *@
+                    <img src="@imgBlock.ImageUrl" 
+                         style="@(imgBlock.EnableOverflow 
+                                    ? "width: 100%; height: auto; aspect-ratio: 16/9; object-fit: cover; display: block;" 
+                                    : "width: 100%; height: auto; display: block;")" />
+
                     @if (!string.IsNullOrWhiteSpace(imgBlock.Caption))
                     {
                         <MudCardContent>
-                            <MudText Typo="Typo.caption" Style="opacity: 0.7;">@imgBlock.Caption</MudText>
+                            <MudText Typo="Typo.body2" Color="Color.Primary" Style="opacity: 1;">@imgBlock.Caption</MudText>
                         </MudCardContent>
                     }
                 </MudCard>
@@ -46,7 +53,7 @@
             
             else if (content is VideoContent vidBlock)
             {
-                <MudCard Elevation="0" Class="border-solid border-b-4 mud-border-primary overflow-hidden my-8 rounded-lg">
+                <MudCard Elevation="0" Class="border-solid border-b-4 mud-border-secondary overflow-hidden my-8 rounded-lg">
 
                     <video autoplay loop muted playsinline style="width: 100%; display: block;">
                         <source src="@vidBlock.VideoUrl" type="video/mp4">
@@ -57,7 +64,7 @@
                     @if (!string.IsNullOrWhiteSpace(vidBlock.Caption))
                     {
                         <MudCardContent>
-                            <MudText Typo="Typo.caption" Style="opacity: 0.7;">@vidBlock.Caption</MudText>
+                            <MudText Typo="Typo.body2" Color="Color.Primary" Style="opacity: 1;">@vidBlock.Caption</MudText>
                         </MudCardContent>
                     }
 
@@ -66,7 +73,7 @@
             
             else if (content is CodeSnippetContent codeBlock)
             {
-                <MudPaper Elevation="0" Class="pa-4 my-8 rounded-lg" Style="background-color: #121212; border: 1px solid #3E4018;">
+                <MudPaper Elevation="0" Class="pa-4 my-8 rounded-lg" Style="background-color: #2C3011; border: 1px solid #3E4018;">
         
                     <MudText Typo="Typo.caption" Color="Color.Secondary" Class="mb-2 d-block">
                         @codeBlock.Language.ToUpper()
@@ -93,7 +100,7 @@
             
             else if (content is EmbeddedVideoContent embedBlock)
             {
-                <MudCard Elevation="0" Class="border-solid border-b-4 mud-border-primary overflow-hidden my-8 rounded-lg">
+                <MudCard Elevation="0" Class="border-solid border-b-4 mud-border-secondary overflow-hidden my-8 rounded-lg">
                     
                     <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
                         
