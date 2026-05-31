@@ -182,4 +182,25 @@ public static class ParagraphData
 
     public static readonly string TerrainP5 =
         "Since the terrain didn’t have to be created on runtime, I was able to create a mesh using the CPU. The mesh itself uses predefined meshes for the cubes and slopes. The entire terrain is divided into chunks, the size is balanced for draw calls and frustum culling. For each chunk a separate collider mesh is created that is a simplified version of the mesh. Additionally, a collider for the river edge is created so the player can’t fall in the water. Vegetation gets baked as a data, which is instantiated on game initialization.";
+
+    public static readonly string WaterColSimP1 =
+        "This simulation was made for my graduation project, which is a watercolor themed sandbox game. Instead of a standard color picker, I had the idea to make a color picker where the user mixes watercolor pigments, just like you would with real watercolor.";
+
+    public static readonly string WaterColorSim2 =
+        "It is simulated on 512 x 512 pixels, on textures with 32 bit precision for each channel. It takes a lot of inspiration from the paper by C. J. Curtis, S. E. Anderson,  J. E. Seims, K.W. Fleischer,  D. H. Salesin: Computer-Generated Watercolor (1997). I turned their pipeline into a GPU-driven simulation that is very feasible for real-time purposes.";
+
+    public static readonly string WaterColorSim3 =
+        "There are two main challenges when making a watercolor pipeline. Firstly, because the paint is water-based, it should move, spread and settle on canvas like water would. The other challenge is pigment rendering, which simply can’t be computed in a single color space. The transmittance, thickness and concentration of the pigment needs to be taken into account. The simulation starts with a single channel buffer that holds the water, on which water can be injected.";
+
+    public static readonly string WaterColorSim4 =
+        "The pigments also have their own texture array buffers. Each pigment has its own channel. For my simulation, I chose to use the 12 pigments that were recommended by the aforementioned paper. After the water and pigment is injected into the buffers, the fluid simulation is computed in three passes, using the Virtual Pipes method.";
+
+    public static readonly string WaterColorSim5 =
+        "The first pass computes the flux on each pixel. Then before the water is moved, the pigment is resolved in the second pass, as it is reliant on the current water volume to accurately flow. After that, the water can safely be resolved.";
+
+    public static readonly string WaterColorSim6 =
+        "While a water simulation is important for the paint to flow, watercolor doesn’t stay fluid forever. In fact, it quickly evaporates and settles pigment into the canvas. The simulation solves this by having two separate layers that are used for the pigment rendering: the suspended and deposited buffer. The suspended buffer runs the fluid simulation and gradually transfers pigment into the deposited buffer.";
+
+    public static readonly string WaterColorSim7 =
+        "With the deposited and suspended buffer ready, we can render the pigments using the Kubelka-Munk method. The paper proposes individually computing each pigment, but I found accumulating the pigment properties and then calculating the Kubelka-Munk once is more efficient and still has great results.";
 }

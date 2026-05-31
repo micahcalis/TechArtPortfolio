@@ -4,6 +4,28 @@ public static class PortfolioData
 {
     public static Dictionary<string, Project> Projects { get; } = new()
     {
+        ["watercolor-simulation"] = new Project(
+            "watercolor-simulation",
+            "Watercolor Simulation",
+            "With Kubelka-Munk Pigment rendering",
+            "images/watercolsim/Thumbnail.png",
+            new List<Content>()
+            {
+                new TextContent(ParagraphData.WaterColSimP1),
+                new VideoContent("videos/watercolsim/SimulationShowcase.mp4", "Showcase of Watercolor Simulation in game prototype"),
+                new TextContent(ParagraphData.WaterColorSim2),
+                new TextContent(ParagraphData.WaterColorSim3),
+                new ImageContent("images/watercolsim/WaterLayer.png", "Single Channel Water Layer", false),
+                new TextContent(ParagraphData.WaterColorSim4),
+                new TextContent(ParagraphData.WaterColorSim5),
+                new ImageContent("images/watercolsim/PigmentLayers.png", "Slice of Pigment Layers Array", false),
+                new ImageContent("images/watercolsim/FluxBuffer.png", "Fluid Flux Buffer", false),
+                new TextContent(ParagraphData.WaterColorSim6),
+                new ImageContent("images/watercolsim/DepositedLayer.png", "Slice of Deposited Buffer Array", false),
+                new TextContent(ParagraphData.WaterColorSim7),
+                new CodeSnippetContent(CodeData.KubelkaMunk, "slang")
+            }),
+        
         ["vulkan-adventures"] = new Project(
             "vulkan-adventures",
             "Vulkan Adventures",

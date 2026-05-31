@@ -29,4 +29,8 @@ public static class CodeData
     // karst
     public static readonly string FluxPass =
         "[numthreads(8,8,8)]\nvoid ResolveFlux (uint3 id : SV_DispatchThreadID) // 5\n{\n    if (ThreadOutOfBounds(id))\n        return;\n\n    KarstMaterial voxel = SampleVoxel(id, _FluxSource);\n    \n    if (!IsPermeable(voxel.density))\n        return;\n\n    Flow baseFlow = GetBaseFlow(voxel);\n    Flow outflow = GetTotalOutflow(id, voxel.acidConcentration, _FluxSource);\n    Flow inflow = GetTotalInflow(_FluxSource, id);\n    Flow netFlow = SubtractFlows(AddFlows(baseFlow, inflow), outflow);\n    \n    voxel.waterAmount = max(netFlow.waterFlow, 0.0f);\n    voxel.acidConcentration = ResolveAcidMass(voxel.waterAmount, netFlow.acidMass);\n    _FluxSource[id] = ResolveMaterial(voxel);\n}";
+    
+    // watercol sim
+    public static readonly string KubelkaMunk =
+        "private void CombineProperties(out Painting.PigmentProperties properties, out float thickness)\n{\n    properties = Painting.PigmentProperties(0, 0, 0, 0, 0);\n    thickness = 0;\n\n    [unroll(NUM_PIGMENTS)]\n    for (int i = 0; i < NUM_PIGMENTS; i++)\n    {\n        float currentThickness = thicknessReader.Read(i);\n\n        if (currentThickness < 1e-4f)\n            continue;\n\n        Painting.PigmentProperties combine = Painting.GetPigmentProperties((Painting.Pigment)i);\n        properties.K += combine.K * currentThickness;\n        properties.S += combine.S * currentThickness;\n        thickness += currentThickness;\n    }\n\n    if (thickness >= 1e-4f)\n    {\n        properties.K /= thickness;\n        properties.S /= thickness;\n    }\n}";
 }
