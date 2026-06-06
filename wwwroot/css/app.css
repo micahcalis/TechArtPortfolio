@@ -112,3 +112,50 @@ code {
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
     text-align: start;
 }
+
+.tab-nuke-wrapper .mud-tabs-tabbar,
+.tab-nuke-wrapper .mud-tabs-tabbar-inner,
+.tab-nuke-wrapper .mud-tabs-tabbar-wrapper,
+.tab-nuke-wrapper .mud-tabs-tabbar-content,
+.tab-nuke-wrapper .mud-tab,
+.tab-nuke-wrapper .mud-tab-active {
+    background-color: transparent !important;
+    background: transparent !important;
+    background-image: none !important;
+    box-shadow: none !important;
+}
+
+.tab-nuke-wrapper .mud-tab::before,
+.tab-nuke-wrapper .mud-tab-active::before {
+    background-color: transparent !important;
+    background: transparent !important;
+    opacity: 0 !important;
+}
+
+.tab-nuke-wrapper .mud-tab:hover,
+.tab-nuke-wrapper .mud-tab:focus,
+.tab-nuke-wrapper .mud-tab:active,
+.tab-nuke-wrapper .mud-tab:focus-within {
+    background-color: transparent !important;
+    background: transparent !important;
+}
+
+.tab-nuke-wrapper .mud-tab,
+.tab-nuke-wrapper .mud-tab::before {
+    transition: background-color 0s, background 0s, opacity 0s !important;
+    -webkit-tap-highlight-color: transparent !important;
+    outline: none !important;
+}
+
+.tab-nuke-wrapper .mud-tab,
+.tab-nuke-wrapper .mud-ripple {
+    --mud-ripple-color: transparent !important;
+}
+
+.tab-nuke-wrapper .mud-ripple-span {
+    display: none !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
+
+
