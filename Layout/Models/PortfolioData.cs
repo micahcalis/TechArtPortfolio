@@ -221,8 +221,161 @@ public static class PortfolioData
             }),
     };
 
+    public static Dictionary<string, Blog> Blogs { get; } = new()
+    {
+        ["sphere-tracing-pipeline"] = new Blog(
+            "sphere-tracing-pipeline",
+            "Sphere Tracing Render Pipeline",
+            "For rendering Complex SDF Scenes with Proxy Meshes",
+            "images/spheretracing/PlanetDrawCalls.png",
+            new List<BlogPage>()
+            {
+                new BlogPage(
+                    "Introduction",
+                    new List<Content>()
+                    {
+                        new HeaderContent("What is a Sphere-Traced SDF?"),
+                        new TextContent(ParagraphData.SphereTraceBlogP1_0),
+                        new VideoContent("videos/spheretracing/SphereTraceShowcase.mp4", "Stylized Smooth-Min SDF Spheres"),
+                        new TextContent(ParagraphData.SphereTraceBlogP1_1),
+                        new HeaderContent("Why would you Sphere-Trace SDF’s?"),
+                        new TextContent(ParagraphData.SphereTraceBlogP1_2),
+                        new TextContent(ParagraphData.SphereTraceBlogP1_3),
+                        new HeaderContent("Expected Knowledge"),
+                        new TextContent(ParagraphData.SphereTraceBlogP1_4),
+                        new TextContent(ParagraphData.SphereTraceBlogP1_5)
+                    }),
+                new BlogPage(
+                "The SDF Problem",
+                new List<Content>()
+                {
+                    new HeaderContent("Complex Scenes & Raymarching"),
+                    new TextContent(ParagraphData.SphereTraceBlogP2_0),
+                    new TextContent(ParagraphData.SphereTraceBlogP2_1),
+                    new HeaderContent("Fullscreen Sphere-Tracing & Rasterization"),
+                    new TextContent(ParagraphData.SphereTraceBlogP2_2),
+                    new TextContent(ParagraphData.SphereTraceBlogP2_3),
+                    new HeaderContent("Pre-Passes & Complex Render Pipelines"),
+                    new TextContent(ParagraphData.SphereTraceBlogP2_4),
+                    new TextContent(ParagraphData.SphereTraceBlogP2_5)
+                }),
+                new BlogPage(
+                    "Deferred Pipeline",
+                    new List<Content>()
+                    {
+                        new HeaderContent("Render Pipeline Overview"),
+                        new TextContent(ParagraphData.SphereTraceBlogP3_0),
+                        new TextContent(ParagraphData.SphereTraceBlogP3_1),
+                        new ImageContent("images/spheretracing/DeferredPipeline.png", "Deferred Pipeline Flowchart", false, 0.5f),
+                        new TextContent(ParagraphData.SphereTraceBlogP3_2),
+                        new TextContent(ParagraphData.SphereTraceBlogP3_3),
+                        new TextContent(ParagraphData.SphereTraceBlogP3_4),
+                        new CodeSnippetContent(CodeData.MaterialIndex, "slang"),
+                        new TextContent(ParagraphData.SphereTraceBlogP3_5),
+                        new CodeSnippetContent(CodeData.NormalEncoding, "slang"),
+                        new TextContent(ParagraphData.SphereTraceBlogP3_6),
+                        new HeaderContent("Deferred Shading"),
+                        new TextContent(ParagraphData.SphereTraceBlogP3_7),
+                        new CodeSnippetContent(CodeData.DeferredModule, "slang"),
+                        new TextContent(ParagraphData.SphereTraceBlogP3_8),
+                        new CodeSnippetContent(CodeData.DeferredFragment, "slang"),
+                        new TextContent(ParagraphData.SphereTraceBlogP3_9),
+                        new CodeSnippetContent(CodeData.DeferredBlit, "slang"),
+                        new TextContent(ParagraphData.SphereTraceBlogP3_10),
+                        new TextContent(ParagraphData.SphereTraceBlogP3_11),
+                        new ImageContent("images/spheretracing/DeferredAlbedo.png", "Deferred Albedo"),
+                        new ImageContent("images/spheretracing/DeferredNormal.png", "Deferred Normal"),
+                        new ImageContent("images/spheretracing/DeferredShaded.png", "Deferred Shaded"),
+                    }),
+                new BlogPage(
+                    "Proxy Mesh Shader",
+                    new List<Content>()
+                    {
+                        new HeaderContent("Proxy Mesh Advantages"),
+                        new TextContent(ParagraphData.SphereTraceBlogP4_0),
+                        new TextContent(ParagraphData.SphereTraceBlogP4_1),
+                        new ImageContent("images/spheretracing/ProxyMesh.png", "Proxy Mesh Visualization", false),
+                        new TextContent(ParagraphData.SphereTraceBlogP4_2),
+                        new TextContent(ParagraphData.SphereTraceBlogP4_3),
+                        new ImageContent("images/spheretracing/Intersection1.png", "Ray & Bounding Volume", false, 0.5f),
+                        new TextContent(ParagraphData.SphereTraceBlogP4_4),
+                        new ImageContent("images/spheretracing/Intersection2.png", "Ray - Box Intersection (tNear: entry point, tFar: exit point)", false, 0.5f),
+                        new TextContent(ParagraphData.SphereTraceBlogP4_5),
+                        new HeaderContent("Volume Intersections Methods"),
+                        new TextContent(ParagraphData.SphereTraceBlogP4_6),
+                        new TextContent(ParagraphData.SphereTraceBlogP4_7),
+                        new CodeSnippetContent(CodeData.SphereVolume, "slang"),
+                        new TextContent(ParagraphData.SphereTraceBlogP4_8),
+                        new CodeSnippetContent(CodeData.EllipsoidVolume, "slang"),
+                        new TextContent(ParagraphData.SphereTraceBlogP4_9),
+                        new CodeSnippetContent(CodeData.AABBVolume, "slang"),
+                        new TextContent(ParagraphData.SphereTraceBlogP4_10),
+                        new CodeSnippetContent(CodeData.OBBVolume, "slang"),
+                        new HeaderContent("Processing Sphere Tracing Results"),
+                        new TextContent(ParagraphData.SphereTraceBlogP4_11),
+                        new TextContent(ParagraphData.SphereTraceBlogP4_12),
+                        new TextContent(ParagraphData.SphereTraceBlogP4_13),
+                        new CodeSnippetContent(CodeData.WorldToDepth, "slang"),
+                        new TextContent(ParagraphData.SphereTraceBlogP4_14),
+                        new CodeSnippetContent(CodeData.SDFNormal, "slang"),
+                        new TextContent(ParagraphData.SphereTraceBlogP4_15),
+                        new HeaderContent("Dynamic Face Culling"),
+                        new TextContent(ParagraphData.SphereTraceBlogP4_16),
+                        new TextContent(ParagraphData.SphereTraceBlogP4_17),
+                        new TextContent(ParagraphData.SphereTraceBlogP4_18),
+                        new TextContent(ParagraphData.SphereTraceBlogP4_19),
+                        new ImageContent("images/spheretracing/VolumeFace1.png", "Camera facing Front Faces", false, 0.5f),
+                        new TextContent(ParagraphData.SphereTraceBlogP4_20),
+                        new ImageContent("images/spheretracing/VolumeFace2.png", "Camera facing Back Faces", false, 0.5f),
+                    }),
+                
+                new BlogPage(
+                    "Modular Sphere Tracing",
+                    new List<Content>()
+                    {
+                        new HeaderContent("Sphere Tracing Abstractions"),
+                        new TextContent(ParagraphData.SphereTraceBlogP5_0),
+                        new CodeSnippetContent(CodeData.HLSLLayout, "hlsl"),
+                        new TextContent(ParagraphData.SphereTraceBlogP5_1),
+                        new CodeSnippetContent(CodeData.SDFLayout, "slang"),
+                        new TextContent(ParagraphData.SphereTraceBlogP5_2),
+                        new CodeSnippetContent(CodeData.SphereTracingLoop, "slang"),
+                        new TextContent(ParagraphData.SphereTraceBlogP5_3),
+                        new CodeSnippetContent(CodeData.BoundingVolumeLayout, "slang"),
+                        new TextContent(ParagraphData.SphereTraceBlogP5_4),
+                        new CodeSnippetContent(CodeData.RayAligner, "slang"),
+                        new HeaderContent("Sphere Tracing Implementation"),
+                        new TextContent(ParagraphData.SphereTraceBlogP5_5),
+                        new CodeSnippetContent(CodeData.PlanetSDF, "slang"),
+                        new ImageContent("images/spheretracing/PlanetDrawCalls.png", "Planet SDF Result with Proxy Mesh Outline"),
+                        new TextContent(ParagraphData.SphereTraceBlogP5_6),
+                        new TextContent(ParagraphData.SphereTraceBlogP5_7),
+                        new CodeSnippetContent(CodeData.SphereTracingFragment, "slang")
+                    }),
+                
+                new BlogPage(
+                    "Results & Refinements",
+                    new List<Content>()
+                    {
+                        new HeaderContent("Implementation Result"),
+                        new TextContent(ParagraphData.SphereTraceBlogP6_0),
+                        new ImageContent("images/spheretracing/ImplementationResult.png", "Watercolor Stylized Galaxy with Proxy Mesh SDF's"),
+                        new TextContent(ParagraphData.SphereTraceBlogP6_1),
+                        new HeaderContent("Future Refinements & Improvements"),
+                        new TextContent(ParagraphData.SphereTraceBlogP6_2),
+                        new TextContent(ParagraphData.SphereTraceBlogP6_3),
+                        new TextContent(ParagraphData.SphereTraceBlogP6_4),
+                    })
+                })
+    };
+
     public static Project GetProjectById(string id)
     {
         return Projects[id];
+    }
+
+    public static Blog GetBlogById(string id)
+    {
+        return Blogs[id];
     }
 }

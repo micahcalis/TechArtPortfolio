@@ -1,4 +1,6 @@
-﻿namespace TechArtPortfolio.Layout.Models;
+﻿using System.Diagnostics.Contracts;
+
+namespace TechArtPortfolio.Layout.Models;
 
 public static class ParagraphData
 {
@@ -203,4 +205,178 @@ public static class ParagraphData
 
     public static readonly string WaterColorSim7 =
         "With the deposited and suspended buffer ready, we can render the pigments using the Kubelka-Munk method. The paper proposes individually computing each pigment, but I found accumulating the pigment properties and then calculating the Kubelka-Munk once is more efficient and still has great results.";
+
+    public static readonly string SphereTraceBlogP1_0 =
+        "Sphere-Tracing is a mathematically based render-method for accurately visualizing Signed Distance Fields (SDF’s). Compared to normal rasterization, sphere-tracing creates more natural looking shapes that can take advantage of mathematical properties, such as smooth blending and boolean operations. SDF’s work best by combining primitives with these functions, creating this kind of effect:";
+
+    public static readonly string SphereTraceBlogP1_1 =
+        "It is important to note that Sphere-Tracing is not the only way to render a SDF. Other methods include polygonization, where the SDF is baked (before runtime) or processed (during runtime) into a list of triangles, which mimics its shape. Naturally, this comes at the disadvantage of losing detail on the SDF up close to the generated mesh. The perfect detail that a runtime mathematical evaluation gives is in my opinion the main visual advantage of a SDF. My proposed method prioritizes the visual integrity of the SDF in complex scenes. Therefore, you should decide for yourself if this is appropriate to your use case.";
+
+    public static readonly string SphereTraceBlogP1_2 =
+        "Besides its visual clarity, there are other advantages to Sphere-Tracing SDF’s. Polygonal rasterization is built entirely on the premise that a triangle, along with a few descriptor sets, provides all the information necessary for a pixel to reach the intended color. While this works especially well for a simple Blinn-Phong, the disadvantage of this isolated approach becomes apparent when trying to create effects that require external information. Effects such as Sub-Surface Scattering or Ambient Occlusion are notoriously difficult, because a single triangle simply doesn’t contain information of the other triangles that it needs. As far as Triangle A knows, Triangle B could be completely off screen or not even exist.";
+
+    public static readonly string SphereTraceBlogP1_3 =
+        "Since a Signed-Distance field is an abstract mathematical representation of a shape, every thread on the GPU has full access to the data of the shape, theoretically with unlimited resolution. The shape can be treated like a 3D volume, instead of a 2D projection. As you might imagine, this makes physically based lighting effects much easier and natural to implement, as light naturally treats objects like 3D volumes. Another major advantage of SDF’s is their memory footprint. A mathematical equation needs far less data than a mesh with thousands of vertices.";
+
+    public static readonly string SphereTraceBlogP1_4 =
+        "As a heads up, this is not a copy-paste SDF Shader tutorial. This implementation is also not engine specific, I developed this in a custom Vulkan renderer. It is expected that you understand Sphere-Tracing, raymarching and SDF’s. Additionally, it is expected that you are familiar with low-level graphics API terminology, since the approach is not engine specific. Prior knowledge of deferred shading techniques is also useful.";
+
+    public static readonly string SphereTraceBlogP1_5 =
+        "Project Requirements:\n- Frame Graph (Customizable)\n- Support for Multiple Render Targets\n- Shader Reflection & Pipeline Cache\n";
+    
+    public static readonly string SphereTraceBlogP2_0 =
+        "As Sphere-Tracing is a variation on a standard Ray-Marching algorithm, its approach is step-based. In code, this translates to a dynamic for-loop, which is notorious for creating lots of dynamic branches. While less notable on modern GPU’s, dynamic branches are a definitive weakness of GPU’s that slow down groups of threads.";
+
+    public static readonly string SphereTraceBlogP2_1 =
+        "Additionally to creating dynamic for-loops, the algorithm also suffers from linear complexity. Meaning, the number of shapes you give to the algorithm proportionally scales the amount of distance calculations made in the raymarcher: which is usually the most expensive part. Rendering a single primitive is quite inexpensive, but rendering hundreds of primitives will make your graphics card cry. Unfortunately most real-time environments require more than a hundred primitives to be rendered, which a naive fullscreen approach makes highly unpractical.";
+
+    public static readonly string SphereTraceBlogP2_2 =
+        "In rasterization, the main performance concern is the number of triangles, which makes sense since the complexity of the shape is made up of triangles. With a raymarching algorithm, the main performance impact comes from the fragment shader, or the amount of pixels that the algorithm covers.";
+
+    public static readonly string SphereTraceBlogP2_3 =
+        "A fullscreen approach starts to make less sense when this is considered, as this covers the maximum amount of pixels possible. A common optimization with volumetric raymarching is rendering to a target that is at half or quarter resolution of the screen. This works well with volumetrics, as they have smoothly distributed color information. However, the loss in quality is highly visible on opaque shapes with sharp edges. Therefore, a solution that minimizes the amount of fragments per primitive is desirable.";
+
+    public static readonly string SphereTraceBlogP2_4 =
+        "For now, we have only taken in consideration the context of just rendering a SDF to the screen. The reality of real-time render pipelines is that they often have a lot more steps. For example, pre-passes are a common solution for post-processing effects that require scene information. Motion Blur needs a pre-pass that stores the motion vectors of a pixel. Perhaps you are developing a stylized render pipeline and want cartoon outlines. Quite commonly, you will need depth and normal pre-passes.";
+
+    public static readonly string SphereTraceBlogP2_5 =
+        "GPUs are built for these types of rasterization render-pipelines, heavily optimized to draw as many triangles as possible. As a result pre-passes are generally quite inexpensive. However, as previously discussed, the bottleneck of Sphere-Tracing SDF’s is the pixel shader. Meaning, pre-passes would be an incredibly expensive technique for a naive raymarching implementation.";
+
+    public static readonly string SphereTraceBlogP3_0 =
+        "A standard forward rendering approach could be sufficient for simple rendering applications, but in my experience render-pipelines tend to require more flexibility. As discussed previously in ‘The SDF Problem’, we want to avoid doing multiple sphere-tracing passes as much as we can. Therefore, we can make the most of one fragment shader by using Multiple Render Targets (MRT). The primary disadvantage of using MRT is that it has a heavy impact on the memory bandwidth. Luckily, this is well balanced by the lack of mesh buffers that sphere-tracing needs.";
+
+    public static readonly string SphereTraceBlogP3_1 =
+        "To take maximum advantage of MRT, we will also be using a deferred shading pipeline, which allows for efficient rendering of complex lighting (such as point lights). Below is an overview of a minimalistic deferred render pipeline:";
+
+    public static readonly string SphereTraceBlogP3_2 =
+        "Buffer definitions:\n- GBuffer Albedo: contains the albedo color used to shade the geometry (RGB). The alpha channel contains a material index.\n- GBuffer Normal: contains the packed normal in the RG channels (world-space).\n- GBuffer Material: contains material data, can be in any order that you like depending on use case. Standard options: smoothness, metallic, ambient occlusion etc.\n- Depth Buffer: standard depth buffer for depth writing and testing.\n- Main Color: main color target of your render pipeline.\n";
+
+    public static readonly string SphereTraceBlogP3_3 =
+        "Note that this is a minimal setup and additional targets can be added for custom effects. For example, a common addition would be an emission target, with a RGB buffer that has HDR range. In this tutorial, I will only be tackling the ones listed above.";
+
+    public static readonly string SphereTraceBlogP3_4 =
+        "The ‘GBuffer Albedo’ is pretty self-explanatory, the albedo is generally derived from a base color with or without a texture sample. The material index in the Alpha channel separates different types of shading calculations. This could optionally be skipped if you are certain you will only use one type of material, but I recommend having at least a Lit and Unlit material. Just make sure to use integers that are simply packed into a 0-1 float:";
+
+    public static readonly string SphereTraceBlogP3_5 =
+        "‘GBuffer Normal’ could be done with a 3 component texture, but we can use a clever technique called Octahedronal Normal Encoding to pack the normal vector into two channels, saving some memory bandwidth. The technique is made possible due to a normal vector always having a length of 1. Meaning: if you have two components of the vector, only two possibilities would remain for the final value (positive and negative). This approach encodes the sign of that component into the two channels.";
+    
+    public static readonly string SphereTraceBlogP3_6 = 
+        "‘GBuffer Material’ is also straightforward. It just contains parameters that describe the materials. For a standard BRDF it could contain: smoothness, metallic and ambient occlusion. These can be acquired from scalar properties or texture samples.";
+
+    public static readonly string SphereTraceBlogP3_7 =
+        "When using deferred shading, make sure to create separate shader modules or includes that define the ‘truths’ for the pipeline. It can become a debugging hell if every shader has its own logic for writing to the GBuffers. Furthermore, it is especially time-consuming if you were to decide to change anything to the pipeline, as you would have to rewrite all the shaders. The example code below is written using Slang, if you don’t have that luxury: don’t worry, this can easily be converted to HLSL/GLSL. If you do have the option of Slang, I would definitely recommend using it. It is a newer shading language that has a lot of features, such as interfaces and modules that will come in handy later when ray marching.";
+
+    public static readonly string SphereTraceBlogP3_8 =
+        "An opaque shader can easily access this module to write to the GBuffers. Below is a minimal example of a simple fragment shader. Note that if you would want to include normal and/or ambient occlusion maps you would have to sample them here.";
+
+    public static readonly string SphereTraceBlogP3_9 =
+        "For the deferred shade pass we can simply read our material index, and do the shading calculations based on that index. To ignore any pixels that we didn’t write to in our opaque pass, we can use a trick that discards a pixel if our depth is at its maximum eye depth, or at the far plane. The pass itself is just a fullscreen Blit to the Main Color buffer.";
+
+    public static readonly string SphereTraceBlogP3_10 =
+        "Once you have the shading pipeline and the render passes setup, it is the perfect time to start on the proxy mesh sphere tracing. Note that you could do the proxy sphere tracing first in a forward pass, but it would require some wasted time refactoring when you decide to implement a more complicated render-pipeline.";
+
+    public static readonly string SphereTraceBlogP3_11 =
+        "For transparent geometry, there is no way to integrate them in a deferred shading pipeline as objects essentially share pixels. Therefore, transparents will be rendered in a standard forward pass where blending is enabled and objects are z-sorted beforehand. That being said, below is the result of the deferred shading pipeline on some asteroid SDF's:";
+
+    public static readonly string SphereTraceBlogP4_0 =
+        "Now for the proxy mesh shader, I will not be explaining how to write a sphere tracing algorithm, as there are plenty of resources on how to write such an algorithm and how it works. However, in the next section ‘Modular Sphere Tracing’ I will show an example of the algorithm.";
+
+    public static readonly string SphereTraceBlogP4_1 =
+        "There are a couple things that make sphere tracing with a proxy mesh more efficient. All of them are a result of defining the bounds for the object. Consider any SDF in world-space, if it has no bounds, there is no easy way to estimate all the pixels that it covers without sphere-tracing the object. So ironically, if we want to render SDF’s efficiently, we have to rasterize their bounds first. This way, we have a proper estimate of the amount of pixels the object covers. Below is a visualization of how this works.";
+
+    public static readonly string SphereTraceBlogP4_2 =
+        "The second advantage we can use is within the sphere tracing algorithm. Consider a ray, which is an object with an origin point, direction and length. If our goal is to minimize the amount of steps it takes during sphere-tracing, then that essentially means that on a ray hit, we want to reach the SDF as efficiently as possible and on miss we want to reach the length of the ray as quickly as possible. Compared to standard raymarching, sphere-tracing already does a great job at reducing the amount of steps, but with defined bounds we can take additional steps to optimize. Because we are not rendering within the entire camera frustum we can adjust the ray to only exist within the bounds.";
+
+    public static readonly string SphereTraceBlogP4_3 =
+        "Meaning, if there was a way to precompute the start position at the bounds and the max length of our ray, then we could considerably take down the steps taken, especially on ray misses. Naturally, there is a way: intersection methods. Consider this primitive box and a ray:";
+
+    public static readonly string SphereTraceBlogP4_4 =
+        "The only information we would need to move the ray within the bounds is the entry point and the exit point. Then our ray origin becomes the entry point, and the ray length becomes the distance between the exit and entry point.";
+
+    public static readonly string SphereTraceBlogP4_5 =
+        "In this blog, I will show you methods of calculating intersections with primitives: box, sphere and ellipsoid volumes. While there are more, I’ve found these are all you need for proxy meshes, as I recommend you render all proxy meshes with a cube mesh. It is the most efficient shape in terms of vertices, and our intersection algorithms make sure that most ray misses require a minimal amount of shader calculations.";
+
+    public static readonly string SphereTraceBlogP4_6 =
+        "First, the sphere. This is a versatile shape that is efficient, because it discards pixels inside the proxy volume that are not inside of the sphere. If your SDF is roughly spherical, I would recommend that you use this shape.";
+
+    public static readonly string SphereTraceBlogP4_7 =
+        "There are two different variations, the geometric and algebraic version. The geometric intersection is most efficient, but is limited because it can’t inherit a transform if the scale is non-uniform (which will turn it into an ellipsoid). So only use this if you are sure it stays that way.";
+
+    public static readonly string SphereTraceBlogP4_8 =
+        "If you’d rather have an ellipsoid, we can make use of the algebraic intersection method, which uses the quadratic formula instead of projecting vectors. Slower but more versatile.";
+
+    public static readonly string SphereTraceBlogP4_9 =
+        "For the cube primitive, the simplest version is using the slab intersection method with an Axis Aligned Bounding Box (AABB). Again this is the fast version for the primitive, and it is limited because it is axis aligned. Meaning, if you were to rotate the cube so that it does not align with your axes it breaks.";
+
+    public static readonly string SphereTraceBlogP4_10 =
+        "For an Oriented Bounding Box (OBB), we still use the slab method, but inversely apply the rotation to get our box and ray to the local orientation of the box, so that it is axis aligned again. Because we have scalar values that describe how far the ray must traverse along itself to reach an intersection (‘tNear’ & ‘tFar’), we can just apply this scalar to our world-space orientation.";
+
+    public static readonly string SphereTraceBlogP4_11 =
+        "With the math of the intersections out of the way, here is quick outline of the steps in the fragment shader:\n1. Define Bounding Volume\n2. Define Ray\n3. Align Ray with to Bounding Volume\n4. Define SDF\n5. Sphere-Trace SDF\n6. Process Sphere Trace result\n7. Fragment Output\n";
+
+    public static readonly string SphereTraceBlogP4_12 =
+        "What makes this technique so powerful, is that the steps are very modular: they apply to all proxy mesh opaques that you would need in the scene. With a proper setup, you only have to select a Bounding Volume and SDF, for which you can follow the same steps as every other sphere-tracing shader.";
+
+    public static readonly string SphereTraceBlogP4_13 =
+        "For writing to the GBuffer, there are a few peculiarities that are required in order for the proxy meshes to function properly. Firstly, we can’t use our rasterized mesh data for any of the outputs: we have to get the normals and the depth from our sphere-tracer. For the depth only a simple matrix multiplication is required. Note that if you use a non-linear depth, then you should pack it by hand here.";
+
+    public static readonly string SphereTraceBlogP4_14 =
+        "For normals there are various methods, some can be directly computed depending on the shape. I usually go for the standard brute-force method, that evaluates the signed distance at slightly offsetted points to approximate a normal (the ‘Evaluate’ function just evaluates the SDF).";
+
+    public static readonly string SphereTraceBlogP4_15 =
+        "It should speak for itself, but any pixels that did not reach your SDF in the sphere-tracing loop should be discarded.";
+
+    public static readonly string SphereTraceBlogP4_16 =
+        "Depending on your use case, implementing all of these steps with a sphere-tracing loop should get you a proper result. However, we can go one step further and think about camera intersections. What happens if the camera is inside the Bounding Volume, but outside the SDF?";
+
+    public static readonly string SphereTraceBlogP4_17 =
+        "Standard face culling would likely cull the back faces, making it obvious that SDF is rendered within a proxy mesh. Ideally, this would be completely unnoticeable. Therefore, we simply turn off culling of the faces, rendering both front & back. However, this creates another problem. If we are outside the proxy mesh, we sphere-trace twice per pixel due to overdraw, which is a significant performance hit.";
+
+    public static readonly string SphereTraceBlogP4_18 =
+        "Luckily we can get all the information we need to resolve this in our shader. We can define a bounding volume that exactly describes the shape of the mesh (not the SDF). And using shader semantics (for Slang and HLSL: SV_IsFrontFace) we can tell whether we are rendering the front face or the back face. Consider the two following scenarios:";
+
+    public static readonly string SphereTraceBlogP4_19 =
+        "If the camera is outside the bounding volume, then we only want to render the front faces. That means we can discard any back-face pixels.";
+
+    public static readonly string SphereTraceBlogP4_20 =
+        "If the camera is inside, then we apply the opposite logic. We only need the back faces, so we discard any front-facing fragments.";
+
+    public static readonly string SphereTraceBlogP5_0 =
+        "Almost equally as important as the correctness of the sphere tracing technique, is a modular implementation that allows for easy extensions and variations. If for every SDF you would have to redo the sphere-tracing loop, it becomes a very messy codebase. Imagine you decide to adjust one step in the loop, then for every implementation that you have that step needs to be changed. Ideally you want a system where you can just define your SDF, and have your pre-made shader functions handle the rest. While Slang makes this significantly easier and more readable than the options HLSL / GLSL have, it is possible to do a similar system with those languages. Here is an example of injecting macros in HLSL, by including a layout file that has abstract macros at the bottom of the implementation file:";
+
+    public static readonly string SphereTraceBlogP5_1 =
+        "With Slang, we can use modules, interfaces and generics, making our lives a lot easier and our code untangled. Let’s start off by defining our abstract objects for the sphere trace. Like the steps outlined earlier, we define a Bounding Volume through which we align a ray, so we can sphere trace on an SDF. The two useful abstractions we can make here are SDF and Bounding Volume. Let’s start with SDF, we just need a function to evaluate it and get the normal:";
+
+    public static readonly string SphereTraceBlogP5_2 =
+        "Slang provides support for overriding a defined function of an interface, kind of like a virtual function in C++ or C#. So, if there is a better implementation for the normal of your SDF, you can override it in the implementation. Note that I just return float here on SDF for simplicity, but it is common to add material values to the SDF output, so that a single SDF can have different colors. Using this interface we can make an incredibly readable sphere tracing loop.";
+
+    public static readonly string SphereTraceBlogP5_3 =
+        "Similarly for the Bounding Volume, we can create an interface that describes what the Bounding Volume should do. Like discussed in the ‘Proxy Mesh Shader’ section, we create a function that with the help of the face direction and camera position decides if the fragment should be drawn or not. We also need a function that aligns a ray to the volume and a function that checks if a position is inside the volume.";
+
+    public static readonly string SphereTraceBlogP5_4 =
+        "Now we just need an object that uses the bounding volume to align a ray to it. I decided to call mine ‘RayAligner’, but I am sure there are better names for it.";
+
+    public static readonly string SphereTraceBlogP5_5 =
+        "With all that setup, we only need to make two implementations of our interfaces. This is an SDF that I am using for my planets:";
+
+    public static readonly string SphereTraceBlogP5_6 =
+        "The bounding volume implementation of an OBB volume can be found in the’ Proxy Mesh Shader’ section.";
+
+    public static readonly string SphereTraceBlogP5_7 =
+        "After all these abstractions, our fragment shader becomes very condensed. Note that it is very important that the compiler knows at compile time what implementation of the interface it uses, otherwise it has to decide at runtime which is way slower. So use generics explicitly.";
+
+    public static readonly string SphereTraceBlogP6_0 =
+        "If you have implemented a deferred shading pipeline with your proxy mesh shaders, then the fun part begins! While you must keep in mind to pack the data you send to multiple render targets as tightly as possible (everything comes at a cost), it is up to you how to use those buffers for your render pipeline. I used this technique to stylize a watercolor galaxy, rendered entirely with raymarched objects:";
+
+    public static readonly string SphereTraceBlogP6_1 =
+        "For this technique to work, I use an additional buffer that contains the watercolor properties, which are used in the deferred shading pass for a lighting model based on the ‘Cangiante’ painting technique. The objects also write to a UV offset buffer, which distorts the edges to give it a painted look. The point is, be creative and experiment with what SDF’s and stylization techniques have to offer.";
+
+    public static readonly string SphereTraceBlogP6_2 =
+        "While this rendering setup is already quite versatile and efficient, this blog hasn’t explored implementation of lighting techniques. Generating traditional shadow maps would be undesirable, as the entire scene would have to be sphere-traced again from the light source perspective (and more times for multiple cascades).";
+
+    public static readonly string SphereTraceBlogP6_3 =
+        "While I haven’t looked into creating shadows myself, creating raymarched shadows seems like the most natural approach. Of course, since the objects are rendered as proxy meshes, you wouldn’t be able to raymarch directly with the current setup. A likely solution is SDF voxelization, packed in perhaps an octree, 3D textures with cascades or Sparse Volume textures.";
+
+    public static readonly string SphereTraceBlogP6_4 =
+        "Another improvement could be anti-aliasing, standard MSAA with Alpha to Coverage enabled could work, but might be inefficient for a MRT setup. Since we are sphere-tracing, using a temporal jitter to slightly offset rays seems like a more elegant solution.";
 }

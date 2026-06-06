@@ -1,0 +1,93 @@
+﻿@page "/blog/{BlogId}"
+@using TechArtPortfolio.Layout.Models
+@using Markdig
+@inject IJSRuntime JS
+
+<MudContainer MaxWidth="MaxWidth.Large" Class="mt-6 mb-16" Style="padding-bottom: 120px;">
+
+    <MudButton Href="/" Variant="Variant.Text" StartIcon="@Icons.Material.Filled.ArrowBack" Class="mb-6">
+        Back To Home
+    </MudButton>
+
+    @if (CurrentBlog == null)
+    {
+        <MudText Typo="Typo.h4" Color="Color.Error">Blog not found.</MudText>
+    }
+    else
+    {
+        <MudText Typo="Typo.h2" Color="Color.Primary" GutterBottom="true" Style="font-weight: 700;">
+            @CurrentBlog.Title
+        </MudText>
+        <MudText Typo="Typo.h5" Color="Color.Secondary" Class="mb-8">
+            @CurrentBlog.Tagline
+        </MudText>
+
+        @if (CurrentBlog.Pages != null && CurrentBlog.Pages.Any())
+        {
+            <div class="tab-nuke-wrapper">
+                <MudTabs @bind-ActivePanelIndex="_activeTabIndex" DisableRipple="true" Elevation="0" Rounded="true" PanelClass="pt-6" SliderColor="Color.Primary">
+
+                    @for (int i = 0; i < CurrentBlog.Pages.Count; i++)
+                    {
+                        var pageIndex = i; // Local copy for the button click events
+                        var pageNode = CurrentBlog.Pages[i];
+
+                        <MudTabPanel Text="@pageNode.Header">
+
+                            @foreach (var content in pageNode.Contents)
+                            {
+                                <ContentRenderer ContentItem="content" />
+                            }
+
+                            <div class="d-flex justify-space-between mt-12 mb-4 pt-8 border-solid border-t-2 mud-border-secondary">
+
+                                @if (pageIndex > 0)
+                                {
+                                    <MudButton Variant="Variant.Outlined" Color="Color.Primary" StartIcon="@Icons.Material.Filled.ArrowBack" OnClick="@(() => ChangeTabAndScrollAsync(pageIndex - 1))">
+                                        Previous: @CurrentBlog.Pages[pageIndex - 1].Header
+                                    </MudButton>
+                                }
+                                else
+                                {
+                                    <div></div> 
+                                }
+
+                                @if (pageIndex < CurrentBlog.Pages.Count - 1)
+                                {
+                                    <MudButton Variant="Variant.Outlined" Color="Color.Primary" EndIcon="@Icons.Material.Filled.ArrowForward" OnClick="@(() => ChangeTabAndScrollAsync(pageIndex + 1))">
+                                        Next: @CurrentBlog.Pages[pageIndex + 1].Header
+                                    </MudButton>
+                                }
+
+                            </div>
+
+                        </MudTabPanel>
+                    }
+                </MudTabs>
+            </div>
+        }
+    }
+</MudContainer>
+
+@code {
+    [Parameter]
+    public string BlogId { get; set; }
+
+    private Blog? CurrentBlog;
+    private int _activeTabIndex = 0;
+
+    protected override void OnParametersSet()
+    {
+        CurrentBlog = PortfolioData.GetBlogById(BlogId);
+        _activeTabIndex = 0; // Reset to the first tab when a new blog is loaded
+    }
+
+    private async Task ChangeTabAndScrollAsync(int newIndex)
+    {
+        // 1. Change the tab
+        _activeTabIndex = newIndex;
+        
+        // 2. Tell the browser to scroll to the top of the page (0,0)
+        await JS.InvokeVoidAsync("window.scrollTo", 0, 0);
+    }
+}

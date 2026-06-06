@@ -77,6 +77,33 @@
             }
         }
     </MudGrid>
+
+    <MudText Typo="Typo.h3" Class="mt-16 mb-10" Align="Align.Center" Style="font-weight: 700;" Color="Color.Primary">
+        Blogs
+    </MudText>
+
+    <MudGrid Justify="Justify.Center" Spacing="4">
+        @if (PortfolioData.Blogs != null)
+        {
+            @foreach (var blog in PortfolioData.Blogs)
+            {
+                <MudItem xs="12" sm="6" md="4">
+                    <MudCard Elevation="0"
+                             Class="border-solid border-b-4 mud-border-secondary hover-effect"
+                             Style="cursor:pointer; transition: transform 0.2s;"
+                             @onclick="() => GoToBlog(blog.Value.Id)">
+
+                        <MudCardMedia Image="@blog.Value.CoverImageUrl" Height="250"/>
+                        <MudCardContent>
+                            <MudText Typo="Typo.h6">@blog.Value.Title</MudText>
+                            <MudText Typo="Typo.body2" Color="Color.Primary">@blog.Value.Tagline</MudText>
+                        </MudCardContent>
+
+                    </MudCard>
+                </MudItem>
+            }
+        }
+    </MudGrid>
 </MudContainer>
 
 @code {
@@ -85,5 +112,10 @@
     private void GoToProject(string id)
     {
         Nav.NavigateTo($"/project/{id}");
+    }
+    
+    private void GoToBlog(string id)
+    {
+        Nav.NavigateTo($"/blog/{id}");
     }
 }

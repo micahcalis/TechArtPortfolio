@@ -1,0 +1,70 @@
+﻿/* 1. STRIP BACKGROUNDS: Keep the text visible, but remove colors */
+.tab-nuke-wrapper ::deep .mud-tabs-tabbar,
+.tab-nuke-wrapper ::deep .mud-tabs-tabbar-inner,
+.tab-nuke-wrapper ::deep .mud-tabs-tabbar-wrapper,
+.tab-nuke-wrapper ::deep .mud-tabs-tabbar-content,
+.tab-nuke-wrapper ::deep .mud-tab,
+.tab-nuke-wrapper ::deep .mud-tab-active {
+    background-color: transparent !important;
+    background: transparent !important;
+    background-image: none !important;
+    box-shadow: none !important;
+}
+
+/* 2. NUKE THE MASK: Apply opacity: 0 ONLY to the invisible pseudo-element */
+.tab-nuke-wrapper ::deep .mud-tab::before,
+.tab-nuke-wrapper ::deep .mud-tab-active::before {
+    background-color: transparent !important;
+    background: transparent !important;
+    opacity: 0 !important;
+}
+
+/* 3. KILL HOVER OVERLAYS */
+.tab-nuke-wrapper ::deep .mud-tab:hover,
+.tab-nuke-wrapper ::deep .mud-tab:focus {
+    background-color: transparent !important;
+}
+
+.tab-nuke-wrapper ::deep .mud-tab:active,
+.tab-nuke-wrapper ::deep .mud-tab:focus-within {
+    background-color: transparent !important;
+    background: transparent !important;
+}
+
+/* Force the invisible mask to NEVER animate its opacity/background */
+.tab-nuke-wrapper ::deep .mud-tab,
+.tab-nuke-wrapper ::deep .mud-tab::before {
+    transition: background-color 0s, background 0s, opacity 0s !important;
+}
+
+/* 1. Kill the actual animated ripple span MudBlazor injects on click */
+.tab-nuke-wrapper ::deep .mud-ripple-span {
+    display: none !important;
+    opacity: 0 !important;
+    background: transparent !important;
+}
+
+/* 2. Kill the class itself just to be safe */
+.tab-nuke-wrapper ::deep .mud-ripple {
+    background: transparent !important;
+    background-color: transparent !important;
+}
+
+/* 3. Kill the browser's native gray click flash */
+.tab-nuke-wrapper ::deep .mud-tab {
+    -webkit-tap-highlight-color: transparent !important;
+    outline: none !important;
+}
+
+/* 1. Force the ripple's color variable to be completely invisible */
+.tab-nuke-wrapper ::deep .mud-tab,
+.tab-nuke-wrapper ::deep .mud-ripple {
+    --mud-ripple-color: transparent !important;
+}
+
+/* 2. Just in case the JS still injects the span, make it ignore the mouse entirely */
+.tab-nuke-wrapper ::deep .mud-ripple-span {
+    display: none !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+}

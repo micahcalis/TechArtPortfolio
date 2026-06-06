@@ -14,17 +14,32 @@ public class TextContent : Content
     }
 }
 
+public class HeaderContent : Content
+{
+    public string Header;
+
+    public HeaderContent(string header)
+    {
+        Header = header;
+    }
+}
+
 public class ImageContent : Content
 {
     public string ImageUrl;
     public string Caption;
     public bool EnableOverflow;
+    public float CustomScalar;
 
-    public ImageContent(string imageUrl, string caption, bool enableOverflow = true)
+    public ImageContent(string imageUrl, 
+        string caption, 
+        bool enableOverflow = true,
+        float customScalar = 1.0f)
     {
         ImageUrl = imageUrl;
         Caption = caption;
         EnableOverflow = enableOverflow;
+        CustomScalar = customScalar;
     }
 }
 
