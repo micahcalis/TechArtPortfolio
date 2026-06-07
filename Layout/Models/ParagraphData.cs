@@ -219,10 +219,10 @@ public static class ParagraphData
         "Since a Signed-Distance field is an abstract mathematical representation of a shape, every thread on the GPU has full access to the data of the shape, theoretically with unlimited resolution. The shape can be treated like a 3D volume, instead of a 2D projection. As you might imagine, this makes physically based lighting effects much easier and natural to implement, as light naturally treats objects like 3D volumes. Another major advantage of SDF’s is their memory footprint. A mathematical equation needs far less data than a mesh with thousands of vertices.";
 
     public static readonly string SphereTraceBlogP1_4 =
-        "As a heads up, this is not a copy-paste SDF Shader tutorial. This implementation is also not engine specific, I developed this in a custom Vulkan renderer. It is expected that you understand Sphere-Tracing, raymarching and SDF’s. Additionally, it is expected that you are familiar with low-level graphics API terminology, since the approach is not engine specific. Prior knowledge of deferred shading techniques is also useful.";
+        "As a heads up, this is not a copy-paste SDF Shader tutorial. This implementation is also not engine specific, I developed this in a custom Vulkan renderer. It is expected that you understand Sphere-Tracing, raymarching and SDF’s. Additionally, it is expected that you are familiar with low-level graphics API terminology, since the approach is not engine specific. Prior knowledge of deferred shading techniques is also useful. Most of the shader code that I will share is written with Slang, although everything can be translated to HLSL or GLSL.";
 
     public static readonly string SphereTraceBlogP1_5 =
-        "Project Requirements:\n- Frame Graph (Customizable)\n- Support for Multiple Render Targets\n- Shader Reflection & Pipeline Cache\n";
+        "Project Requirements:\n- Custom Render Passes\n- Support for Multiple Render Targets\n- Shader Reflection & Pipeline Cache\n";
     
     public static readonly string SphereTraceBlogP2_0 =
         "As Sphere-Tracing is a variation on a standard Ray-Marching algorithm, its approach is step-based. In code, this translates to a dynamic for-loop, which is notorious for creating lots of dynamic branches. While less notable on modern GPU’s, dynamic branches are a definitive weakness of GPU’s that slow down groups of threads.";
@@ -360,13 +360,13 @@ public static class ParagraphData
         "With all that setup, we only need to make two implementations of our interfaces. This is an SDF that I am using for my planets:";
 
     public static readonly string SphereTraceBlogP5_6 =
-        "The bounding volume implementation of an OBB volume can be found in the’ Proxy Mesh Shader’ section.";
+        "The bounding volume implementation of an OBB volume can be found in the ’Proxy Mesh Shader’ section.";
 
     public static readonly string SphereTraceBlogP5_7 =
         "After all these abstractions, our fragment shader becomes very condensed. Note that it is very important that the compiler knows at compile time what implementation of the interface it uses, otherwise it has to decide at runtime which is way slower. So use generics explicitly.";
 
     public static readonly string SphereTraceBlogP6_0 =
-        "If you have implemented a deferred shading pipeline with your proxy mesh shaders, then the fun part begins! While you must keep in mind to pack the data you send to multiple render targets as tightly as possible (everything comes at a cost), it is up to you how to use those buffers for your render pipeline. I used this technique to stylize a watercolor galaxy, rendered entirely with raymarched objects:";
+        "If you have implemented a deferred shading pipeline with your proxy mesh shaders, then the fun part begins! While you must keep in mind to use the multiple render targets as efficiently as possible (everything comes at a cost), it is up to you how to use those buffers for your render pipeline. I used this technique to stylize a watercolor galaxy, rendered entirely with raymarched objects:";
 
     public static readonly string SphereTraceBlogP6_1 =
         "For this technique to work, I use an additional buffer that contains the watercolor properties, which are used in the deferred shading pass for a lighting model based on the ‘Cangiante’ painting technique. The objects also write to a UV offset buffer, which distorts the edges to give it a painted look. The point is, be creative and experiment with what SDF’s and stylization techniques have to offer.";
