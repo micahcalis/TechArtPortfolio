@@ -301,7 +301,7 @@ public static class PortfolioData
                         new TextContent(ParagraphData.SphereTraceBlogP4_4),
                         new ImageContent("images/spheretracing/Intersection2.png", "Ray - Box Intersection (tNear: entry point, tFar: exit point)", false, 0.5f),
                         new TextContent(ParagraphData.SphereTraceBlogP4_5),
-                        new HeaderContent("Volume Intersections Methods"),
+                        new HeaderContent("Volume Intersection Methods"),
                         new TextContent(ParagraphData.SphereTraceBlogP4_6),
                         new TextContent(ParagraphData.SphereTraceBlogP4_7),
                         new CodeSnippetContent(CodeData.SphereVolume, "slang"),
