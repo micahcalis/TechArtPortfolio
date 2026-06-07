@@ -1,5 +1,6 @@
 ﻿@using TechArtPortfolio.Layout.Models
 @using Markdig
+@using System.Globalization
 
 @if (ContentItem is TextContent textBlock)
 {
@@ -19,12 +20,14 @@ else if (ContentItem is ImageContent imgBlock)
 {
     <MudCard Elevation="0"
              Class="border-solid border-b-4 mud-border-secondary my-8 rounded-lg overflow-hidden"
-             Style="@($"width: {(imgBlock.EnableOverflow ? 100.0 : 56.25) * imgBlock.CustomScalar}%;")">
+             Style="@($"width: {((imgBlock.EnableOverflow ? 100.0 : 56.25) * imgBlock.CustomScalar).ToString(CultureInfo.InvariantCulture)}%;")">
         
-        <img src="@imgBlock.ImageUrl" 
-             style="pointer-events: none; @(imgBlock.EnableOverflow 
-                                              ? "width: 100%; height: auto; aspect-ratio: 16/9; object-fit: cover; display: block;" 
-                                              : "width: 100%; height: auto; display: block;")" />
+        <div style="width: 100%; min-width: 0; min-height: 0; display: block;">
+            <img src="@imgBlock.ImageUrl" 
+                 style="pointer-events: none; max-width: 100%; @(imgBlock.EnableOverflow 
+                                                                   ? "width: 100%; height: auto; aspect-ratio: 16/9; object-fit: cover; display: block;" 
+                                                                   : "width: 100%; height: auto; display: block;")" />
+        </div>
 
         @if (!string.IsNullOrWhiteSpace(imgBlock.Caption))
         {
