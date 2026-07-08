@@ -379,4 +379,178 @@ public static class ParagraphData
 
     public static readonly string SphereTraceBlogP6_4 =
         "Another improvement could be anti-aliasing, standard MSAA with Alpha to Coverage enabled could work, but might be inefficient for a MRT setup. Since we are sphere-tracing, using a temporal jitter to slightly offset rays seems like a more elegant solution.";
+
+    public static readonly string WatercolorBlogP1_0 =
+        "Watercolor is an artistic medium with a vast and ancient history. The fluidity of the water creates natural shapes and color blending, but also makes it difficult to control. In real-time rendering, watercolor has been researched but its practical applications are quite limited. Watercolor stylization is usually achieved through hand-painted sprites or textures, rather than being procedurally stylized. In this blog, I will explain how I achieved the following effect in my galaxy sandbox game: My Watercolor Galaxy:";
+
+    public static readonly string WatercolorBlogP1_1 =
+        "My method is heavily influenced by the paper S. E. Montesdeoca, H. S. Seah, H. M. Rall: Art-directed Watercolor Rendered Animation (2016).";
+
+    public static readonly string WatercolorBlogP1_2 =
+        "During my stylization research, I foresaw several challenges of real-time watercolor rendering for games. Most importantly, techniques like ‘Wet-on-wet’ which are characteristic to the watercolor medium, directly contradict a core principle of game design: readability. In a watercolor painting, using this technique makes the most of the water medium, and is often used to separate foreground and background. In games, losing such detail could be undesirable, as it might conceal information that the player needs. Therefore, if you want to implement this effect in your games, be mindful of whether it fits your game design.";
+
+    public static readonly string WatercolorBlogP1_3 =
+        "This effect is more complicated than a simple post-processing filter. It requires other render targets which ideally can be tuned per object material for artistic control. In my solution, I am using Multiple Render-Targets (MRT) to write to all of these buffers. Naturally, that also means I use Deferred Shading. However, if you prefer Forward Rendering it should be possible to use Pre-Passes instead, which neatly decouples the watercolor stylization from the base rendering and could lower the memory bandwidth. I am rendering with MRT because I have Sphere-Traced 3D objects, this makes fragment shaders quite expensive and Pre-Passes unsuitable.";
+
+    public static readonly string WatercolorBlogP1_4 =
+        "Since this effect is more complicated than a filter, it is expected that you understand how to use multiple buffers within a render pipeline and how to organize them. I made this effect in my own Vulkan Renderer, however this approach is not engine specific. That being said, this means that you should have sufficient knowledge on customizing the render pipeline in your engine of choice. All the shader code that I will be sharing is written in Slang, but everything can be translated to HLSL or GLSL quite easily.";
+
+    public static readonly string WatercolorBlogP1_5 =
+        "Project Requirements:\n- Custom Render Passes\n- Shader Reflection & Pipeline Cache\n";
+
+    public static readonly string WatercolorBlogP2_0 =
+        "Buffer definitions:\n- Main Color: main color target of your render pipeline.\n- Watercolor Control: contains material data for the watercolor processing pass.\n    - Red: Paper Distortion\n    - Green: Paper Granulation\n    - Blue: Color Bleed\n    - Alpha: Pigment Turbulence\n- Offset: contains 2D noise for Hand Tremor UV offset.\n- Depth Buffer: standard depth buffer for depth writing and testing.\n";
+    
+    public static readonly string WatercolorBlogP2_1 =
+        "The watercolor control buffer will be the main container of our watercolor per-material properties. It is important to note that these properties have a lot of artistic control (hence the name). Since most of my objects are created procedurally, I opted to implement these properties with computational rules. However, like the paper ‘Art-directed Watercolor Rendered Animation’ suggests, you could implement this pipeline to be controlled by hand-painted vertex colors or textures.";
+
+    public static readonly string WatercolorBlogP2_2 =
+        "The red channel is reserved for Paper Distortion. This controls how much the paper texture affects the paint. In general, I found that this directly correlates to the wetness of the paint (0-1 range), since paint that is more viscous is more affected by the paper texture. This is the math I am using:";
+
+    public static readonly string WatercolorBlogP2_3 =
+        "The Paper Distortion will be directly used as a multiplier later, which is why I prefer to always have a base distortion of 0.5, as this is important to create a convincing canvas effect. The exponent simply creates an ease out curve.";
+
+    public static readonly string WatercolorBlogP2_4 =
+        "The green channel is used for Paper Granulation. Like the distortion multiplier, this value will have an effect on the paper texture that will be used in the processing pass. This corresponds to the pigment accumulation in the valleys of the paper texture. Generally, in lighter areas this becomes more visible. Because we don’t yet know the brightness of our pixel, I use a trick that approximates it by computing the dot product between the surface normal and the light direction. Additionally I offset the normal with FBM Perlin noise, using the Surface & Screen Stable Noise technique (SSSN). You can read more about this technique in the next section.";
+
+    public static readonly string WatercolorBlogP2_5 =
+        "The blue channel controls the Color Bleed. This is what determines the intensity of the Wet-on-wet stylization. For my purposes, I wanted the background to gain this effect. So, I created a threshold range for the Wet-on-wet to exist in. Using the ‘bleedMin’ and ‘bleedMax’, you can define the range yourself. Additionally, I use a light fresnel gradient, which works especially well on round objects, creating a natural bleed from the center of the object to its edge.";
+
+    public static readonly string WatercolorBlogP2_6 =
+        "The alpha channel is left for the Pigment Turbulence. If you are using forward rendering, you can leave this out and use it to directly compute the turbulence in the shading model. Either way, I am using FBM Perlin noise, sampled with the SSSN technique. This will help in creating texture on the flat colors, recreating the natural inconsistencies in pigment concentration on a watercolor painting.";
+
+    public static readonly string WatercolorBlogP2_7 =
+        "The Offset Buffer will be simulating the offset that a watercolor painting would have due to hand tremors and the fluidity of water. Because hand tremors are small, it is important that the noise has a moderately high frequency. Once again using the SSSN technique, I use FBM Perlin-Worley noise, where the Worley noise has a higher weight than the Perlin Noise.";
+
+    public static readonly string WatercolorBlogP3_0 =
+        "The main challenge of creating Surface & Screen Stable Noise (SSSN) is that the Surface and the Screen act like opposites in isolation. An example of surface stable noise would be an object using its UV coordinates to sample noise. As you can imagine, this results in the noise not being screen stable, as a far away object would have much higher frequency than an object that is close to the camera. Make the noise screen-space, and now the noise doesn’t stick to the object, breaking the illusion of depth.";
+
+    public static readonly string WatercolorBlogP3_1 =
+        "What we need is a method to estimate the scale of the UV’s relative to the screen. Or more analytically, we need to determine the rate of change (frequency). In his video ‘Surface-Stable Fractal Dithering Explained’ (2025), Rune Skovbo Johansen proposes a method to calculate the minimum and maximum rate of change. I highly recommend watching his video if you want a better understanding of the math used here.";
+
+    public static readonly string WatercolorBlogP3_2 =
+        "In short, by using the native functions ‘ddx’ and ‘ddy’, we can get the raw rate of change of our UV’s. To keep the math visual. You can imagine the pixel as a perfect circle that is orthogonal to the surface normal. By projecting that circle onto the screen, we end up with an ellipse that is stretched.";
+
+    public static readonly string WatercolorBlogP3_3 =
+        "We are interested in the minimum and maximum amount that our ellipse is stretched, this will translate to the minimum and the maximum frequency of our UV’s. Our screen space derivatives (‘dx’ and ‘dy’) tell us the vectors of the shape. Then using linear algebra, we can calculate the lengths of the major and minor axes of the ellipse. This calculation can be simplified to using the quadratic equation, where finding its ‘roots’ (where the output = 0) evaluates the minimum and maximum frequencies.";
+
+    public static readonly string WatercolorBlogP3_4 =
+        "After finding the frequencies, we can find the ‘spacing’ of the noise. My implementation uses the minimum frequency, which I found to be closer to a practical scale for noise patterns. To get our fractal scale levels, we have to take a step back and review why we are doing this. In simple terms, we want our noise pattern to have roughly the same scale on different projections. Simply using the frequency as a scale will result in discontinuity on our pattern. So, we want the next best thing, which is rounding the frequency to the nearest power of two. This will create banding, which I will get to later. But, it does give us a divisor for our noise pattern that will keep the pattern relatively the same scale across the screen.";
+
+    public static readonly string WatercolorBlogP3_5 =
+        "With our Fractal Data, we can construct our Surface & Screen stable noise. As I said, we still have one remaining problem, which is the seams that a single level creates:";
+
+    public static readonly string WatercolorBlogP3_6 =
+        "To fix this, we make the observation that a seam occurs when the frequency is transitioning to a new power of two. So if we blend with this new value before we reach the seam, then we create a seamless pattern. This is why we kept two levels (N & N + 1). The ‘SubLayer’ value will be the interpolator for our blend. My implementation here is tuned for 3D noise, but an implementation for standard 2D will follow the same logic.";
+
+    public static readonly string WatercolorBlogP3_7 =
+        "For artistic control, you could pass the interpolator through easing functions. For example, if you find the blend to be too visible, you could try a function that eases in and out, making the transition not visible on most of the curve.";
+
+    public static readonly string WatercolorBlogP3_8 =
+        "Below are the full fractal data functions I used, for 2D and 3D:";
+
+    public static readonly string WatercolorBlogP4_0 =
+        "As mentioned in the ‘Introduction’ section, a lot of these techniques are translated from the paper S. E. Montesdeoca, H. S. Seah, H. M. Rall: Art-directed Watercolor Rendered Animation (2016). I will be referring to it as the Montesdeoca paper.";
+
+    public static readonly string WatercolorBlogP4_1 =
+        "Cangiante is a painting technique popularized during the Renaissance era, which enabled painters to preserve bright colors by shading with highlights. Instead of mixing dark colors like brown and black for shadows, artists would mix in bright colors like red and orange. This technique was often used on church murals, where the light color of the stone would compliment this style.";
+
+    public static readonly string WatercolorBlogP4_2 =
+        "As you could imagine, the same rules apply to watercolor. The translucency of the paint along with the natural blending of color compliments the Cangiante style. All this means that for a watercolor stylized lit model, we have to use a different approach than a standard PBR solution.";
+
+    public static readonly string WatercolorBlogP4_3 =
+        "The example above of the shading model is without any post-processing. As you can see the light side is quite bright. It mixes the base color with the color of the canvas and the color of the light. This balances the need for the color to blend with the canvas, whilst also keeping artistic light control. The shadow side remains a vibrant color, where the pigment turbulence also becomes more noticeable. The turbulence also offsets the light gradient, creating a more natural shape.";
+
+    public static readonly string WatercolorBlogP4_4 =
+        "The lit model takes the following parameters:";
+
+    public static readonly string WatercolorBlogP4_5 =
+        "The model itself is simple but effective. The base of the direct light gradient is a standard dot product between the light direction and the surface normal. It is controlled mainly by the Dilute Area parameter.";
+
+    public static readonly string WatercolorBlogP4_6 =
+        "The shading uses a ‘pigment’ color, which is essentially the gradient coloured with the albedo. The other color ‘base’ is a mix between the canvas color and the light color. This code, as well as the ‘GetArea’ function are modified versions of the Cangiate shading model proposed in the Montesdeoca paper.";
+
+    public static readonly string WatercolorBlogP4_7 =
+        "The most important parameters in this calculation are the ‘Cangiante’ and ‘Dilution’. ‘Dilution’ controls the general strength of the gradient. A low value will keep the gradient subtle, while a high value will show a strong contrast between the light and dark areas. The ‘Cangiante’ value controls the strength of the ‘base’ color.";
+
+    public static readonly string WatercolorBlogP4_8 =
+        "The parameters that are left are Light Color Intensity and Dark Intensity. Light Color Intensity (value 0-1) directly interpolates between the canvas and the light color. You can change this value, I would recommend setting it higher on scenes with little ambient light. Dark Intensity is responsible for deciding the minimum value the object must have. Without this the shading model quite easily reaches negative values, which is obviously undesirable.\n";
+
+    public static readonly string WatercolorBlogP4_9 =
+        "\nFinally, I’ve also added a simple specular highlight that mimics a bright blob of concentrated paint, with the color of the light. Depending on your stylization needs, you could decide to make this highlight white always. While the highlight looks unnatural on its own in the model, the post-processing distorts the shape. The size can be controlled with the Smoothness parameter.\n";
+
+    public static readonly string WatercolorBlogP4_10 =
+        "Just like normal watercolor paintings, our lit model has the issue of not easily displaying a contrast between hard and soft materials. A solution that I encountered when researching watercolor is scraping painted canvas to create sharp flakes of unpainted canvas.";
+
+    public static readonly string WatercolorBlogP4_11 =
+        "To achieve a similar effect, I am using the SSSN technique on FBM Voronoi noise with an exact distance. The exact distance will create the sharp edges that we need. I am using a tileable 3D volume, below is a function for generating such noise (I would highly recommend not calculating this on runtime). My implementation is based on the following article from Inigo Quilez:";
+
+    public static readonly string WatercolorBlogP4_12 =
+        "I simply threshold this noise and add a slight fade using a fresnel, as the noise looks best when the surface is facing the camera. The threshold is based on the ‘hardness’ property.";
+
+    public static readonly string WatercolorBlogP5_0 =
+        "As mentioned in the ‘Introduction’ section, a lot of these techniques are translated from the paper S. E. Montesdeoca, H. S. Seah, H. M. Rall: Art-directed Watercolor Rendered Animation (2016). I will be referring to it as the Montesdeoca paper.";
+
+    public static readonly string WatercolorBlogP5_1 =
+        "Because watercolor is such a thin medium, the texture of the canvas is quite visible. Valleys are often darker, because paint is naturally collected in those areas. When you paint a shape on a rough canvas, edges are slightly offset due to the texture. I believe these details are vital to creating convincing stylization.";
+
+    public static readonly string WatercolorBlogP5_2 =
+        "The first step is sampling the canvas texture. My implementation uses a screen-space overlay that is moved slightly when the user rotates the camera. This helps in decreasing the static feel of a standard overlay. This is my ‘DynamicCanvasUpdater’ class:";
+
+    public static readonly string WatercolorBlogP5_3 =
+        "The ‘_DynamicOffset’ property is simply used to offset the repeating texture. We will need the partial derivatives of the canvas texture for the UV offset. I recommend pre-calculating this, but it is certainly feasible to calculate them on runtime.";
+
+    public static readonly string WatercolorBlogP5_4 =
+        "With the partial derivatives, offsetting the screen UV’s becomes very simple. The strength of the effect is scaled by a general intensity value. Since the distortion is in UV space, I recommend keeping the intensity at a low value, mine is 0.02. The other scalar we get from our Watercolor Control buffer Red Channel. Keep in mind that the partial derivatives must be in a -1 to 1 range, otherwise your UV’s will shift objects towards the sign of your range.";
+
+    public static readonly string WatercolorBlogP5_5 =
+        "For the Paper Granulation I am using the Split-Model proposed by the Montesdeoca Paper, which preserves the vibrancy of a color whilst darkening it. This creates the illusion that paint is more concentrated at valleys of the paper texture. Like the UV offset, this effect has a general intensity scalar (my value = 0.25), but uses the Watercolor Control buffer Green Channel.";
+
+    public static readonly string WatercolorBlogP5_6 =
+        "As discussed in the ‘Render Pipeline’ section, the hand tremor offset is stored in the Offset buffer. We will use its Red Channel for the X offset, and the Green Channel for the Y offset. The direct output from the geometry passes could be used for this effect, but it will create outline artifacts around the edges of objects. Reason being, the noise is discontinuous between different object surfaces.";
+
+    public static readonly string WatercolorBlogP5_7 =
+        "Since the noise is only disconcontinuous around the edges of objects, we have two options: use a different noise sampling technique or standardize the noise around the edges. Since the SSSN technique does create a very stable result, I decided to go with the latter.";
+
+    public static readonly string WatercolorBlogP5_8 =
+        "My solution is a two-pass Edge-Aware Gaussian Blur. Because I was content with the effect of the noise (apart from the artifacts), the blur needs to preserve the noise on areas that are not prone to have artifacts. As is pretty standard in Edge-Detection algorithms, I compute the depth difference between the center pixel and neighbouring pixels. Then I can use this difference as weights in the blur.";
+
+    public static readonly string WatercolorBlogP5_9 =
+        "In the result below you can see that the noise looks very similar, except for a blurred ring around the edges, which resolves the outline artifacts of discontinuous noise. Since this is a blur on fullscreen resolution, I recommend minimizing the blur depth, to keep the fragments as cheap as possible. My blur depth is set to 5. \n";
+
+    public static readonly string WatercolorBlogP5_10 =
+        "For the actual offset implementation, there is again a base scalar, which I have set to 0.005.";
+
+    public static readonly string WatercolorBlogP5_11 =
+        "Quite commonly with watercolor paintings, the Wet-on-wet technique is used to abstract away backgrounds. Consider what the technique implies physically: it dilutes the pigments and mixes surrounding pigments. To simulate this in real-time, the solution of the Montesdeoca paper is quite elegant and simple. We simply apply a very heavy Gaussian Blur to a separate buffer, which naturally dilutes the color information. Then we simply interpolate towards the blurred buffer using our Color Bleed value, located in the Blue Channel of the Watercolor Control buffer.";
+
+    public static readonly string WatercolorBlogP5_12 =
+        "Remember to blur on half resolution, this will greatly increase performance. Because the buffer is blurred, upscaling it with linear interpolation will not give noticeable aliasing. I am using a blur depth of 21 and a spread of 20.0. Below is an implementation of a Gaussian blur.";
+
+    public static readonly string WatercolorBlogP5_13 =
+        "The last technique from the Montesdeoca paper cleverly uses the Gaussian blur again for a subtle Edge Darkening effect. The ‘Difference of Gaussians’ technique is an image enhancement technique that is commonly used for denoising, or even edge-detection.";
+
+    public static readonly string WatercolorBlogP5_14 =
+        "By subtracting the blurred buffer from the color, we are able to highlight edges slightly, which gives an Edge Darkening effect purely based on color information, indifferent to geometry.";
+
+    public static readonly string WatercolorBlogP5_15 =
+        "When implementing this watercolor post-processing pipeline, I noticed that the pipeline worked really well when the objects used the Cangiante Shading Model, but objects that did not (transparents, skybox etc.) would not have a convincing watercolor palette. Since I was rendering a galaxy, the black background remained black, uncharacteristic of watercolor.";
+
+    public static readonly string WatercolorBlogP5_16 =
+        "So, I added two Enhancement Filters that I feel give a great finishing touch to the post-processing pipeline. The first is actually a light Cangiante over the screen, weighted by the paper height. Similar to the Pigment Granulation calculations, it preserves the colors of paper valleys and lightens the color of hills.";
+
+    public static readonly string WatercolorBlogP5_17 =
+        "This worked well in softening dark colors and emphasizing the paper texture, but did slightly desaturate the entire image, which could be acceptable for a watercolor aesthetic. However, I prefer adding a vibrancy filter, which emphasizes already saturated colors, preserving the effect of Cangiante on dark colors whilst brightening more saturated values.";
+
+    public static readonly string WatercolorBlogP6_0 =
+        "Implementing a post-processing system like this is a lot of shader code, but does give you a pipeline that has a lot of artistic freedom and parameters to tweak, which is usually quite difficult in heavily stylized pipelines. Below are a few screenshots from my stylized galaxy, which renders lit, unlit and volumetric objects whilst keeping the stylization consistent. I recommend using bold colors and simplifying high-frequency detail, like you would with real watercolor. That is where the pipeline shines.";
+
+    public static readonly string WatercolorBlogP6_1 =
+        "Whilst I am quite happy with how this turned out for my project, stylization is an art, not a strict science. I recommend removing and adding elements to this pipeline for your specific use case and experiment with different effects.";
+
+    public static readonly string WatercolorBlogP6_2 =
+        "An effect that interests me but I haven’t found the time for, is adding bloom to the pipeline. Naturally, adding bloom after this post-processing will result in an incoherent effect, as it would be completely separate from the pipeline. Implementing custom bloom passes that give a stylized gradient before the post-processing is applied could result in an interesting effect.";
+
+    public static readonly string WatercolorBlogP6_3 =
+        "Furthermore, whilst the Edge-Aware blur is a viable solution, it is quite inefficient. I believe it is worth looking for a more efficient solution that resolves the relatively small artifacts resulting from the discontinuous noise.";
 }
