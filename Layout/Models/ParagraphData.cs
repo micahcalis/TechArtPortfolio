@@ -4,28 +4,6 @@ namespace TechArtPortfolio.Layout.Models;
 
 public static class ParagraphData
 {
-    // vulkan
-    public static readonly string VulkanP0 =
-        "For my graduation, I am making a stylized watercolor render pipeline. Working with Unity’s Scriptable Render-Pipeline has been great, but its high-level nature and invisible backend make it hard to optimize. For full control and to learn C++, I decided to try out Vulkan.";
-
-    public static readonly string VulkanP1 =
-        "After more than 10,000 lines of code and half as many headaches, I have a fully functioning render-pipeline (stylization excluded). Here is a showcase of 1000 unique entities with unique materials, rendered comfortably at ~1.0 ms (1000 fps) on an RTX 3080.";
-
-    public static readonly string VulkanP2 =
-        "The objects that are rendered are sphere-traced primitives. The only reason we can render this many, is because they are rendered with a proxy mesh: a cube that also serves as the bounding box of the ray. ";
-
-    public static readonly string VulkanP3 =
-        "Because sphere-tracing is expensive, it is important to minimize the amount of fragments that use this algorithm. This can be difficult when pipelines get complicated, as prepasses are required for many effects. Instead of rendering my proxy meshes multiple times, I have decided to use multiple render targets, as you would in a deferred shading pipeline. This way I can add targets for new effects, while having to sphere trace in only one pass. ";
-
-    public static readonly string VulkanP4 =
-        "Crucial for any render-pipeline is a decent Frame Graph. My approach is pretty standard, Topologically sorting a Directed Acyclic Graph that I build every frame. It automatically inserts barriers based on listed dependencies in the render passes, and has support for compute passes. Below is an example of a render pass in my pipeline.";
-
-    public static readonly string VulkanP5 = 
-        "Compute shaders and SSBO's are quite important for modern render-pipelines. My setup allows me to easily create effects like this:";
-
-    public static readonly string VulkanP6 =
-        "Equally as important is Shader development tools. Things I’ve taken for granted, like Properties in ShaderLab and Shader Globals, I’ve had to develop systems for. Luckily, SPIR-V Reflect makes reflection pretty doable. ";
-
     public static readonly string PainterlyP0 =
         "For a project called ‘Midas’, I worked on a render-pipeline with two layers: a painterly stylized background, and a cel-shaded cartoon foreground. The concept was to bring an 2D animation film aesthetic into 3D, with a nostalgic Dutch environment. Looking at existing solutions for painterly rendering, such as the Anisotropic Kuwahara filter or Compute-Based Stroke Rendering, I wasn’t quite satisfied with either. I’ve come up with a solution that I dubbed Surface-Stable Voronoi Flooding.";
 
@@ -522,7 +500,7 @@ public static class ParagraphData
         "For the actual offset implementation, there is again a base scalar, which I have set to 0.005.";
 
     public static readonly string WatercolorBlogP5_11 =
-        "Quite commonly with watercolor paintings, the Wet-on-wet technique is used to abstract away backgrounds. Consider what the technique implies physically: it dilutes the pigments and mixes surrounding pigments. To simulate this in real-time, the solution of the Montesdeoca paper is quite elegant and simple. We simply apply a very heavy Gaussian Blur to a separate buffer, which naturally dilutes the color information. Then we simply interpolate towards the blurred buffer using our Color Bleed value, located in the Blue Channel of the Watercolor Control buffer.";
+        "Quite commonly with watercolor paintings, the Wet-on-wet technique is used to abstract away backgrounds. Consider what the technique implies physically: it dilutes the pigments and mixes surrounding pigments. To simulate this in real-time, the solution of the Montesdeoca paper is quite elegant and simple. We apply a very heavy Gaussian Blur to a separate buffer, which naturally dilutes the color information. Then we interpolate towards the blurred buffer using our Color Bleed value, located in the Blue Channel of the Watercolor Control buffer.";
 
     public static readonly string WatercolorBlogP5_12 =
         "Remember to blur on half resolution, this will greatly increase performance. Because the buffer is blurred, upscaling it with linear interpolation will not give noticeable aliasing. I am using a blur depth of 21 and a spread of 20.0. Below is an implementation of a Gaussian blur.";
@@ -553,4 +531,25 @@ public static class ParagraphData
 
     public static readonly string WatercolorBlogP6_3 =
         "Furthermore, whilst the Edge-Aware blur is a viable solution, it is quite inefficient. I believe it is worth looking for a more efficient solution that resolves the relatively small artifacts resulting from the discontinuous noise.";
+
+    public static readonly string VulkanEngineP0 =
+        "Making a Vulkan Rendering Engine from scratch proved to be a significant challenge, but its low-level nature has given me a deeper understanding of real-time graphics. It has also allowed me to prioritize unique aesthetics and learning new techniques, whilst keeping a performant rendering application.";
+
+    public static readonly string VulkanEngineP1 =
+        "Since I had 20 weeks to complete a game within a not yet existing rendering engine, I knew I had to pick my battles. Because I wanted a stylized game with a custom render pipeline, I focused on Shader Development features, a Frame Graph & basic game engine functionality (Hierarchies, UI etc.).";
+
+    public static readonly string VulkanEngineP2 =
+        "Implementing a Frame Graph (with Vulkan’s Dynamic Rendering) allows me to create custom Render Passes, which are sorted based on their dependencies. I am using a standard approach for this, which is building a Directed Acyclic Graph and topologically sorting it. Additionally, I also have a pre-sort based on the ‘Render Event’, which is just an unsigned integer assigned to every pass. Below is an example render pass:";
+
+    public static readonly string VulkanEngineP3 =
+        "My hierarchy is an OOP approach that prioritizes efficient and selective rendering pipelines. My object nodes are located in a ‘Context’, and each ‘Context’ decides which render passes it needs to render. Like the ‘Context’, the nodes also decide how they should be rendered. For example, a player node has a few simple draw calls for the shape and the VFX. But, a galaxy node renders an entire galaxy in a few optimized draw calls, with custom instancing buffers.";
+
+    public static readonly string VulkanEngineP4 =
+        "The rendering commands are collected in a ‘DrawCallPool’, based on filters like Shader Pass and Context Type. This keeps the Render Passes abstract whilst prioritising shader flexibility.";
+
+    public static readonly string VulkanEngineP5 =
+        "Using the SpirV-Reflect library, I am able to reflect Descriptor Layouts automatically for my materials, which is extremely important for efficient shader development. Below is an example shader default lit shader written with Slang:";
+
+    public static readonly string VulkanEngineP6 =
+        "Materials, textures & shaders (graphics & compute) can all be loaded in with one-line commands. There is also support for creating procedural textures & meshes.";
 }

@@ -26,27 +26,25 @@ public static class PortfolioData
                 new CodeSnippetContent(CodeData.KubelkaMunk, "slang")
             }),
         
-        ["vulkan-adventures"] = new Project(
-            "vulkan-adventures",
-            "Vulkan Adventures",
-            "WIP of a custom Vulkan Renderer",
+        ["vulkan-engine"] = new Project(
+            "vulkan-engine",
+            "Vulkan Engine",
+            "Making a Custom Renderer with Vulkan",
             "images/vulkan/Thumbnail.png",
             new List<Content>()
             {
-                new TextContent(ParagraphData.VulkanP0),
-                new TextContent(ParagraphData.VulkanP1),
+                new TextContent(ParagraphData.VulkanEngineP0),
+                new TextContent(ParagraphData.VulkanEngineP1),
                 new VideoContent("videos/vulkan/Rendershowcase.mp4", "Quick look of the renderer"),
-                new TextContent(ParagraphData.VulkanP2),
-                new TextContent(ParagraphData.VulkanP3),
-                new ImageContent("images/vulkan/DeferredAlbedo.png", "Deferred Albedo Buffer"),
-                new ImageContent("images/vulkan/DeferredNormal.png", "Deferred Normal Buffer"),
-                new ImageContent("images/vulkan/DeferredMaterial.png", "Deferred Material Parameters Buffer"),
-                new TextContent(ParagraphData.VulkanP4),
+                new TextContent(ParagraphData.VulkanEngineP2),
                 new CodeSnippetContent(CodeData.VulkanRenderPass, "cpp"),
-                new TextContent(ParagraphData.VulkanP5),
-                new VideoContent("videos/vulkan/Tornadoshowcase.mp4", "Particle System with SSBO's"),
-                new TextContent(ParagraphData.VulkanP6),
-                new CodeSnippetContent(CodeData.VulkanShader, "slang")
+                new TextContent(ParagraphData.VulkanEngineP3),
+                new ImageContent("images/vulkan/HierarchyUML.png", "UML Scene Draw Command", false),
+                new TextContent(ParagraphData.VulkanEngineP4),
+                new TextContent(ParagraphData.VulkanEngineP5),
+                new CodeSnippetContent(CodeData.VulkanShader, "slang"),
+                new TextContent(ParagraphData.VulkanEngineP6),
+                new CodeSnippetContent(CodeData.VulkanRenderObjects, "cpp"),
             }),
         
         ["painterly-rendering"] = new Project(
@@ -236,7 +234,7 @@ public static class PortfolioData
                         {
                             new HeaderContent("Watercolor Stylization"),
                             new TextContent(ParagraphData.WatercolorBlogP1_0),
-                            new ImageContent("images/wcrendering/WatercolorCover.png", "My Watercolor Galaxy in-game Render"),
+                            new ImageContent("images/wcrendering/WatercolorCover.png", "In-Game Screenshot of 'My Watercolor Galaxy'"),
                             new TextContent(ParagraphData.WatercolorBlogP1_1),
                             new LinkButtonContent("https://dr.ntu.edu.sg/server/api/core/bitstreams/39c56447-f3b8-43cd-892e-e18313d78fdb/content", "Montesdeoca Paper"),
                             new TextContent(ParagraphData.WatercolorBlogP1_2),
