@@ -53,7 +53,7 @@ public static class PortfolioData
         ["stylized-nebulae"] = new Project(
             "stylized-nebulae",
             "Stylized Nebulae",
-            "With Screen-Space Tile Partioning",
+            "With Screen-Space Tile Partitioning",
             "images/nebula/Cover.png",
             new List<Content>()
             {
