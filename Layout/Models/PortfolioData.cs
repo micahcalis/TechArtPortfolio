@@ -4,6 +4,52 @@ public static class PortfolioData
 {
     public static Dictionary<string, Project> Projects { get; } = new()
     {
+        ["watercolor-stylization"] = new Project(
+            "watercolor-stylization",
+            "Watercolor Stylization",
+            "Translating Watercolor Techniques to a Stylized Pipeline",
+            "images/wcstylization/Cover.png",
+            new List<Content>()
+            {
+                new TextContent(ParagraphData.WcStylizationP0),
+                new VideoContent("videos/wcstylization/StylizationShowcase.mp4", "My Watercolor Galaxy Gameplay"),
+                new TextContent(ParagraphData.WcStylizationP1),
+                new LinkButtonContent("https://micahcalis.com/blog/watercolor-rendering", "Blog"),
+                new TextContent(ParagraphData.WcStylizationP2),
+                new ImageContent("images/wcstylization/Cangiante.png", "Cangiante Shading on Galaxy Objects"),
+                new TextContent(ParagraphData.WcStylizationP3),
+                new TextContent(ParagraphData.WcStylizationP4),
+                new ImageContent("images/wcstylization/HandTremor.png", "Hand Tremor U-Offset Buffer"),
+                new TextContent(ParagraphData.WcStylizationP5),
+                new ImageContent("images/wcstylization/WatercolorControl.png", "Watercolor Control Buffer (RGBA Channels)"),
+                new TextContent(ParagraphData.WcStylizationP6),
+                new ImageContent("images/wcstylization/Wetonwet.png", "Wet-on-wet effect on distant Galaxy Objects")
+            }),
+        
+        ["galaxy-sdfs"] = new Project(
+            "galaxy-sdfs",
+            "Galaxy Signed Distance Fields",
+            "Rendering SDF's for a stylized Watercolor Galaxy",
+            "images/galaxysdf/Cover.png",
+            new List<Content>()
+            {
+                new TextContent(ParagraphData.GalaxySDFP0),
+                new TextContent(ParagraphData.GalaxySDFP1),
+                new VideoContent("videos/galaxysdf/SpaceGoo.mp4", "Stylized Space Goo in 'My Watercolor Galaxy'"),
+                new CodeSnippetContent(CodeData.SpaceGooSDF, "slang"),
+                new TextContent(ParagraphData.GalaxySDFP2),
+                new LinkButtonContent("https://micahcalis.com/blog/sphere-tracing-pipeline", "Blog"),
+                new TextContent(ParagraphData.GalaxySDFP3),
+                new ImageContent("images/galaxysdf/PlanetAsteroids.png", "Stylized Planet & Asteroids in 'My Watercolor Galaxy"),
+                new TextContent(ParagraphData.GalaxySDFP4),
+                new ImageContent("images/galaxysdf/Sun.png", "Stylized Sun in 'My Watercolor Galaxy"),
+                new ImageContent("images/galaxysdf/Blackhole.png", "Stylized Blackhole in 'My Watercolor Galaxy"),
+                new TextContent(ParagraphData.GalaxySDFP5),
+                new LinkButtonContent("https://www.shadertoy.com/view/3sSBDV", "ShaderToy"),
+                new TextContent(ParagraphData.GalaxySDFP6),
+                new ImageContent("images/galaxysdf/Player.png", "Stylized UFO & Alien in 'My Watercolor Galaxy"),
+            }),
+        
         ["watercolor-simulation"] = new Project(
             "watercolor-simulation",
             "Watercolor Simulation",

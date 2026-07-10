@@ -552,4 +552,48 @@ public static class ParagraphData
 
     public static readonly string VulkanEngineP6 =
         "Materials, textures & shaders (graphics & compute) can all be loaded in with one-line commands. There is also support for creating procedural textures & meshes.";
+
+    public static readonly string GalaxySDFP0 =
+        "For my graduation project ‘My Watercolor Galaxy’ I rendered all of my 3D objects as Sphere-Traced Signed Distance Fields (SDF). The mathematical nature of SDF’s creates a unique aesthetic, where the round shapes are quite different from sharp polygons. But more importantly, it allowed me to easily create pseudo-random variety for all the galaxy objects, critical for a sandbox game.";
+
+    public static readonly string GalaxySDFP1 =
+        "Below is an example shader for the ‘Space Goo’, which I think showcases the advantages quite well:";
+
+    public static readonly string GalaxySDFP2 =
+        "If you want to know more about how I efficiently rendered large & complex scenes with Sphere Tracing, you can read more about it here:";
+
+    public static readonly string GalaxySDFP3 =
+        "Any galaxy needs planets and asteroids. The planet is just a sphere with a ring, simple to make with SDF’s. The asteroids are smooth-min spheres that have precomputed voronoi noise carved out of them.";
+
+    public static readonly string GalaxySDFP4 =
+        "Like the planets, the sun is also a SDF sphere. For my stylized black hole, I implemented an Accretion Disk SDF, which I think creates a very convincing shape.";
+
+    public static readonly string GalaxySDFP5 =
+        "Finally, the player is a UFO inspired largely by a ShaderToy shader made by user ‘Blackle’:";
+
+    public static readonly string GalaxySDFP6 =
+        "The base is made up of two smooth-min spheres and gets its texture from a radial gradient. The exhaust is a cube that is sliced diagonally with a plane. The alien is made of smooth-min spheres & lines.";
+
+    public static readonly string WcStylizationP0 =
+        "For my graduation project ‘My Watercolor Galaxy’, I worked on developing a stylized watercolor post-processing pipeline. In my research I could find very little practical applications of watercolor stylization in games. Most implementations tend to rely on stylized illustrations, but I wanted to create a procedural pipeline that would turn any render into watercolor.";
+
+    public static readonly string WcStylizationP1 =
+        "If you are interested a in-depth look at the post-processing pipeline, I wrote a blog about it:";
+
+    public static readonly string WcStylizationP2 =
+        "The shaded objects use a shading model based on the ‘Cangiante’ paint technique, preserving vibrant hues and mixing in the color of the canvas, simulating the translucency of watercolor.";
+
+    public static readonly string WcStylizationP3 =
+        "The effect also has layered UV offsets, for the canvas texture and hand tremors. Applying these offsets are important in making the geometry feel paint-like, distorting shapes and creating slight inconsistencies, simulating human error.";
+
+    public static readonly string WcStylizationP4 =
+        "The hand tremor buffer uses a technique I created called Surface & Screen Stable Noise, which lets 3D objects sample noise that remains a consistent Screen-Space size from any distance.";
+
+    public static readonly string WcStylizationP5 =
+        "Additionally to the hand tremor, objects write to a separate target called the ‘Watercolor Control’ buffer, which stores material properties for the post-processing.";
+
+    public static readonly string WcStylizationP6 =
+        "Using a separate blurred target on half resolution, an effect similar to the Wet-on-wet watercolor technique is created, applied to objects in the distance. The same target is also used for an Edge Darkening effect, using the Difference of Gaussians.";
+    
+    
 }
