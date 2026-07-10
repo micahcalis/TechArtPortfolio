@@ -594,6 +594,22 @@ public static class ParagraphData
 
     public static readonly string WcStylizationP6 =
         "Using a separate blurred target on half resolution, an effect similar to the Wet-on-wet watercolor technique is created, applied to objects in the distance. The same target is also used for an Edge Darkening effect, using the Difference of Gaussians.";
-    
-    
+
+    public static readonly string NebulaP0 =
+        "For ‘My Watercolor Galaxy’, a galaxy sandbox game, I wanted the player to place colorful nebulas and have them fly through and interact with a real volume.";
+
+    public static readonly string NebulaP1 =
+        "In my previous volumetric rendering work, I have always worked with clouds that are high in the sky, which allows me to just draw them on the background of the scene. The problem with having volumetric objects is that they need to be sorted like transparents, but not rendered like them. To solve this problem, I created a small render-pipeline that uses Screen-Space Tile Partitioning, combined with Sphere Tracing & Volumetric Raymarching.";
+
+    public static readonly string NebulaP2 =
+        "First I divide the screen into 16x16 pixel tiles. Then in a compute shader I compute the Tile Partitioning with every volumetric object, assigning their indices to overlapping tiles.";
+
+    public static readonly string NebulaP3 =
+        "My ray-marching algorithm starts with a sphere-trace, tracing towards the bounds of the closest volumetric object (sphere SDF). When the ray reaches this SDF, it switches to volumetric raymarching, accumulating transmittance. While the culled tiles will help a lot with performance, I still do the raymarch on half-resolution.";
+
+    public static readonly string NebulaP4 =
+        "After the raymarch, I combine the half-resolution buffer with the main color target with a depth-aware upsample. This minimizes the artifacts around edges of opaque objects, created from the half-resolution blending.";
+
+    public static readonly string NebulaP5 =
+        "For the color of the nebulas, I decided to directly use the density value as a gradient, which gives an intriguing blend that matches the stylized aesthetic of watercolor.";
 }

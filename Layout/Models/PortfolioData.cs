@@ -50,6 +50,26 @@ public static class PortfolioData
                 new ImageContent("images/galaxysdf/Player.png", "Stylized UFO & Alien in 'My Watercolor Galaxy"),
             }),
         
+        ["stylized-nebulae"] = new Project(
+            "stylized-nebulae",
+            "Stylized Nebulae",
+            "With Screen-Space Tile Partioning",
+            "images/nebula/Cover.png",
+            new List<Content>()
+            {
+                new TextContent(ParagraphData.NebulaP0),
+                new VideoContent("videos/nebula/NebulaShowcase.mp4", "Stylized Nebulae in 'My Watercolor Galaxy'"),
+                new TextContent(ParagraphData.NebulaP1),
+                new TextContent(ParagraphData.NebulaP2),
+                new CodeSnippetContent(CodeData.NebulaTiles, "slang"),
+                new TextContent(ParagraphData.NebulaP3),
+                new ImageContent("images/nebula/HalfResBuffer.png", "Raw Half Resolution Render"),
+                new TextContent(ParagraphData.NebulaP4),
+                new ImageContent("images/nebula/Upsample.png", "Upsampled Main Color Result"),
+                new TextContent(ParagraphData.NebulaP5),
+                new ImageContent("images/nebula/NebulaColors.png", "Nebulae with varying color combinations"),
+            }),
+        
         ["watercolor-simulation"] = new Project(
             "watercolor-simulation",
             "Watercolor Simulation",
